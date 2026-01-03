@@ -18,7 +18,7 @@ const props = defineProps<{
     >
       <div
         v-if="props.state.preselectionDancers[0]"
-        class="px-8 py-6 bg-pink-600 text-white w-[400px] flex gap-8 items-center justify-between text-right text-4xl font-bold"
+        class="px-8 py-6 bg-red-700 text-white w-[400px] flex gap-8 items-center justify-between text-right text-4xl font-bold"
       >
         <div>
           {{ props.state.preselectionDancers[0].id }}
@@ -51,7 +51,7 @@ const props = defineProps<{
           >
             <div
               v-if="props.state.preselectionDancers[1]"
-              class="px-6 py-4 mt-2 bg-pink-500 text-white w-[300px] flex items-center justify-between text-right text-xl font-bold"
+              class="px-6 py-4 mt-2 bg-red-700 opacity-70 text-white w-[300px] flex items-center justify-between text-right text-xl font-bold"
             >
               <div>
                 {{ dancer.id }}
@@ -71,7 +71,7 @@ const props = defineProps<{
           >
             <div
               v-if="props.state.preselectionDancers[1]"
-              class="px-6 py-4 mt-2 bg-blue-500 text-white w-[300px] flex items-center justify-between text-right text-xl font-bold"
+              class="px-6 py-4 mt-2 bg-blue-600 opacity-70 text-white w-[300px] flex items-center justify-between text-left text-xl font-bold"
             >
               <div>
                 {{ dancer.name }}

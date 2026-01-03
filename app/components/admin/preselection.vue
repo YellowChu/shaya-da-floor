@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import Papa from "papaparse";
+
 const props = withDefaults(
   defineProps<{
     modelValue?: PreselectionDancer[];
@@ -16,6 +18,7 @@ const emit = defineEmits<{
   (e: "save"): void;
 }>();
 
+// Reordering functionality
 const moveUp = (index: number) => {
   if (index > 0) {
     const dancers = [...props.modelValue];
@@ -44,6 +47,16 @@ const moveDown = (index: number) => {
   }
 };
 
+const moveToStart = (index: number) => {
+  const dancers = [...props.modelValue];
+  const dancer = dancers.splice(index, 1)[0];
+  if (dancer) {
+    dancers.unshift(dancer);
+  }
+
+  emit("update:modelValue", dancers);
+};
+
 const moveToEnd = (index: number) => {
   const dancers = [...props.modelValue];
   const dancer = dancers.splice(index, 1)[0];
@@ -61,11 +74,158 @@ const removePreselectionDancer = (id: number) => {
 
   emit("update:modelValue", dancers);
 };
+
+// New item functionality
+const newItemName = ref<string>("");
+
+const addNewItem = () => {
+  const name = newItemName.value.trim();
+  if (!name) return;
+
+  // Find the largest ID in the current list
+  const largestId =
+    props.modelValue.length > 0
+      ? Math.max(
+          ...props.modelValue.map((dancer) => dancer.id)
+        )
+      : 0;
+
+  const newDancer: PreselectionDancer = {
+    id: largestId + 1,
+    name: name,
+  };
+
+  const dancers = [...props.modelValue, newDancer];
+  emit("update:modelValue", dancers);
+
+  // Clear the input
+  newItemName.value = "";
+};
+
+const handleNewItemKeydown = (event: KeyboardEvent) => {
+  if (event.key === "Enter") {
+    addNewItem();
+  }
+};
+
+// Editing functionality
+const editingId = ref<number | null>(null);
+const editingName = ref<string>("");
+
+const startEdit = (dancer: PreselectionDancer) => {
+  editingId.value = dancer.id;
+  editingName.value = dancer.name;
+};
+
+const saveEdit = () => {
+  if (editingId.value && editingName.value.trim()) {
+    const dancers = [...props.modelValue];
+    const index = dancers.findIndex(
+      (d) => d.id === editingId.value
+    );
+    if (index !== -1 && dancers[index]) {
+      dancers[index] = {
+        ...dancers[index],
+        id: dancers[index].id,
+        name: editingName.value.trim(),
+      };
+      emit("update:modelValue", dancers);
+    }
+  }
+  cancelEdit();
+};
+
+const cancelEdit = () => {
+  editingId.value = null;
+  editingName.value = "";
+};
+
+const handleKeydown = (event: KeyboardEvent) => {
+  if (event.key === "Enter") {
+    saveEdit();
+  } else if (event.key === "Escape") {
+    cancelEdit();
+  }
+};
+
+// Upload CSV functionality
+const parseCsv = (e: Event) => {
+  const file = (e.target as HTMLInputElement).files?.[0];
+  if (!file) return;
+
+  Papa.parse(file, {
+    skipEmptyLines: true,
+    complete: (results) => {
+      console.log(results.data);
+
+      const rows = results.data as string[][];
+      const dancers: PreselectionDancer[] = [];
+
+      if (rows.length === 0) return;
+
+      for (const [index, row] of rows.entries()) {
+        if (!row[0]) continue;
+
+        const id = index + 1;
+        const name = row[0];
+        dancers.push({
+          id,
+          name,
+        });
+      }
+
+      emit("update:modelValue", dancers);
+    },
+  });
+
+  // Clear the file input after processing
+  (e.target as HTMLInputElement).value = "";
+};
 </script>
 
 <template>
   <div>
     <h2 class="text-lg font-bold">Preselection</h2>
+
+    <div class="flex flex-col gap-4 my-4">
+      <div class="flex flex-col">
+        <label
+          class="text-sm font-medium mb-2"
+          for="csv-input"
+          >Upload CSV</label
+        >
+
+        <input
+          id="csv-input"
+          type="file"
+          accept=".csv,text/csv"
+          @change="parseCsv"
+        />
+      </div>
+
+      <div class="flex flex-col">
+        <label class="text-sm font-medium mb-2">
+          Add New Dancer
+        </label>
+        <div class="flex gap-2">
+          <input
+            v-model="newItemName"
+            type="text"
+            class="flex-1 px-3 py-2 border border-blue-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            placeholder="Enter dancer name"
+            @keydown="handleNewItemKeydown"
+          />
+          <button
+            class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors duration-200"
+            @click="addNewItem"
+            :disabled="!newItemName.trim()"
+            title="Add Dancer"
+          >
+            Add
+          </button>
+        </div>
+      </div>
+    </div>
 
     <div class="max-h-[24rem] overflow-scroll">
       <TransitionGroup
@@ -76,16 +236,72 @@ const removePreselectionDancer = (id: number) => {
         <div
           v-for="(dancer, index) in modelValue"
           :key="dancer.id"
-          class="flex items-center gap-2 p-2 bg-gray-50 rounded"
+          class="flex items-center gap-2 p-2 bg-gray-50 rounded transition-all duration-300 ease-in-out hover:bg-gray-100"
         >
-          <span class="flex-1"
-            >{{ dancer.id }} {{ dancer.name }}</span
-          >
+          <div class="flex-1 flex items-center gap-2">
+            <span
+              class="text-sm font-medium text-gray-600 min-w-8"
+              >{{ dancer.id }}</span
+            >
+
+            <!-- Display mode -->
+            <span
+              v-if="editingId !== dancer.id"
+              class="flex-1 cursor-pointer hover:text-blue-600 transition-colors"
+              @click="startEdit(dancer)"
+              :title="'Click to edit ' + dancer.name"
+            >
+              {{ dancer.name }}
+            </span>
+
+            <!-- Edit mode -->
+            <div
+              v-else
+              class="flex-1 flex items-center gap-2"
+            >
+              <input
+                v-model="editingName"
+                type="text"
+                class="flex-1 px-2 py-1 text-sm border border-blue-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                @keydown="handleKeydown"
+                @blur="saveEdit"
+                ref="editInput"
+                placeholder="Enter dancer name"
+              />
+              <button
+                class="px-2 py-1 text-xs bg-green-500 text-white rounded hover:bg-green-600 transition-colors duration-200"
+                @click="saveEdit"
+                title="Save"
+              >
+                ✓
+              </button>
+              <button
+                class="px-2 py-1 text-xs bg-gray-500 text-white rounded hover:bg-gray-600 transition-colors duration-200"
+                @click="cancelEdit"
+                title="Cancel"
+              >
+                ✕
+              </button>
+            </div>
+          </div>
+
           <div class="flex gap-1">
+            <!-- Edit button (only show when not in edit mode) -->
+            <button
+              v-if="editingId !== dancer.id"
+              class="px-2 py-1 text-xs bg-yellow-500 text-white rounded hover:bg-yellow-600 transition-colors duration-200"
+              @click="startEdit(dancer)"
+              title="Edit Name"
+            >
+              ✏
+            </button>
+
             <button
               class="px-2 py-1 text-xs bg-blue-500 text-white rounded hover:bg-blue-600 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors duration-200"
               @click="moveUp(index)"
-              :disabled="index === 0"
+              :disabled="
+                index === 0 || editingId === dancer.id
+              "
               title="Move Up"
             >
               ↑
@@ -93,22 +309,39 @@ const removePreselectionDancer = (id: number) => {
             <button
               class="px-2 py-1 text-xs bg-blue-500 text-white rounded hover:bg-blue-600 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors duration-200"
               @click="moveDown(index)"
-              :disabled="index === modelValue.length - 1"
+              :disabled="
+                index === modelValue.length - 1 ||
+                editingId === dancer.id
+              "
               title="Move Down"
             >
               ↓
             </button>
             <button
               class="px-2 py-1 text-xs bg-green-500 text-white rounded hover:bg-green-600 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors duration-200"
+              @click="moveToStart(index)"
+              :disabled="
+                index === 0 || editingId === dancer.id
+              "
+              title="Move to Start"
+            >
+              ⇈
+            </button>
+            <button
+              class="px-2 py-1 text-xs bg-green-500 text-white rounded hover:bg-green-600 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors duration-200"
               @click="moveToEnd(index)"
-              :disabled="index === modelValue.length - 1"
+              :disabled="
+                index === modelValue.length - 1 ||
+                editingId === dancer.id
+              "
               title="Move to End"
             >
               ⇊
             </button>
             <button
-              class="px-2 py-1 text-xs bg-red-500 text-white rounded hover:bg-red-600 transition-colors duration-200"
+              class="px-2 py-1 text-xs bg-red-500 text-white rounded hover:bg-red-600 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors duration-200"
               @click="removePreselectionDancer(dancer.id)"
+              :disabled="editingId === dancer.id"
               title="Remove"
             >
               ✕
