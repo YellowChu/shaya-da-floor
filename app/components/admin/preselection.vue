@@ -67,10 +67,16 @@ const moveToEnd = (index: number) => {
   emit("update:modelValue", dancers);
 };
 
-const removePreselectionDancer = (id: number) => {
-  const dancers = props.modelValue.filter(
-    (d) => d.id !== id
-  );
+const toggleArchive = (id: number) => {
+  const dancers = [...props.modelValue];
+  const index = dancers.findIndex((d) => d.id === id);
+  if (index !== -1 && dancers[index]) {
+    dancers[index] = {
+      ...dancers[index],
+      archived: !dancers[index].archived,
+    };
+    emit("update:modelValue", dancers);
+  }
 
   emit("update:modelValue", dancers);
 };
@@ -93,6 +99,7 @@ const addNewItem = () => {
   const newDancer: PreselectionDancer = {
     id: largestId + 1,
     name: name,
+    archived: false,
   };
 
   const dancers = [...props.modelValue, newDancer];
@@ -126,7 +133,6 @@ const saveEdit = () => {
     if (index !== -1 && dancers[index]) {
       dancers[index] = {
         ...dancers[index],
-        id: dancers[index].id,
         name: editingName.value.trim(),
       };
       emit("update:modelValue", dancers);
@@ -171,6 +177,7 @@ const parseCsv = (e: Event) => {
         dancers.push({
           id,
           name,
+          archived: false,
         });
       }
 
@@ -251,7 +258,15 @@ const parseCsv = (e: Event) => {
               @click="startEdit(dancer)"
               :title="'Click to edit ' + dancer.name"
             >
-              {{ dancer.name }}
+              <del
+                v-if="dancer.archived"
+                class="text-gray-600"
+              >
+                {{ dancer.name }}
+              </del>
+              <span v-else>
+                {{ dancer.name }}
+              </span>
             </span>
 
             <!-- Edit mode -->
@@ -289,8 +304,9 @@ const parseCsv = (e: Event) => {
             <!-- Edit button (only show when not in edit mode) -->
             <button
               v-if="editingId !== dancer.id"
-              class="px-2 py-1 text-xs bg-yellow-500 text-white rounded hover:bg-yellow-600 transition-colors duration-200"
+              class="px-2 py-1 text-xs bg-yellow-500 text-white rounded hover:bg-yellow-600 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors duration-200"
               @click="startEdit(dancer)"
+              :disabled="dancer.archived"
               title="Edit Name"
             >
               ✏
@@ -300,7 +316,7 @@ const parseCsv = (e: Event) => {
               class="px-2 py-1 text-xs bg-blue-500 text-white rounded hover:bg-blue-600 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors duration-200"
               @click="moveUp(index)"
               :disabled="
-                index === 0 || editingId === dancer.id
+                dancer.archived || editingId === dancer.id
               "
               title="Move Up"
             >
@@ -310,8 +326,7 @@ const parseCsv = (e: Event) => {
               class="px-2 py-1 text-xs bg-blue-500 text-white rounded hover:bg-blue-600 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors duration-200"
               @click="moveDown(index)"
               :disabled="
-                index === modelValue.length - 1 ||
-                editingId === dancer.id
+                dancer.archived || editingId === dancer.id
               "
               title="Move Down"
             >
@@ -321,7 +336,7 @@ const parseCsv = (e: Event) => {
               class="px-2 py-1 text-xs bg-green-500 text-white rounded hover:bg-green-600 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors duration-200"
               @click="moveToStart(index)"
               :disabled="
-                index === 0 || editingId === dancer.id
+                dancer.archived || editingId === dancer.id
               "
               title="Move to Start"
             >
@@ -331,20 +346,24 @@ const parseCsv = (e: Event) => {
               class="px-2 py-1 text-xs bg-green-500 text-white rounded hover:bg-green-600 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors duration-200"
               @click="moveToEnd(index)"
               :disabled="
-                index === modelValue.length - 1 ||
-                editingId === dancer.id
+                dancer.archived || editingId === dancer.id
               "
               title="Move to End"
             >
               ⇊
             </button>
             <button
-              class="px-2 py-1 text-xs bg-red-500 text-white rounded hover:bg-red-600 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors duration-200"
-              @click="removePreselectionDancer(dancer.id)"
+              class="px-2 py-1 text-xs text-white rounded disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors duration-200"
+              :class="
+                dancer.archived
+                  ? 'bg-green-500 hover:bg-green-600'
+                  : 'bg-red-500 hover:bg-red-600'
+              "
+              @click="toggleArchive(dancer.id)"
               :disabled="editingId === dancer.id"
-              title="Remove"
+              title="Toggle Archive"
             >
-              ✕
+              {{ dancer.archived ? "✓" : "✕" }}
             </button>
           </div>
         </div>

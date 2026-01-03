@@ -2,6 +2,12 @@
 const props = defineProps<{
   state: IState;
 }>();
+
+const preselectionDancers = computed(() =>
+  props.state.preselectionDancers.filter(
+    (dancer) => !dancer.archived
+  )
+);
 </script>
 
 <template>
@@ -13,29 +19,29 @@ const props = defineProps<{
     </h2>
 
     <div
-      v-if="props.state.preselectionDancers.length"
+      v-if="preselectionDancers.length"
       class="flex gap-16 mt-12"
     >
       <div
-        v-if="props.state.preselectionDancers[0]"
+        v-if="preselectionDancers[0]"
         class="px-8 py-6 bg-red-700 text-white w-[400px] flex gap-8 items-center justify-between text-right text-4xl font-bold"
       >
         <div>
-          {{ props.state.preselectionDancers[0].id }}
+          {{ preselectionDancers[0].id }}
         </div>
         <div>
-          {{ props.state.preselectionDancers[0].name }}
+          {{ preselectionDancers[0].name }}
         </div>
       </div>
       <div
-        v-if="props.state.preselectionDancers[1]"
+        v-if="preselectionDancers[1]"
         class="px-8 py-6 bg-blue-600 text-white w-[400px] flex gap-8 items-center justify-between text-right text-4xl font-bold"
       >
         <div>
-          {{ props.state.preselectionDancers[1].name }}
+          {{ preselectionDancers[1].name }}
         </div>
         <div>
-          {{ props.state.preselectionDancers[1].id }}
+          {{ preselectionDancers[1].id }}
         </div>
       </div>
     </div>
@@ -44,13 +50,12 @@ const props = defineProps<{
       <div class="flex gap-16">
         <ul>
           <li
-            v-for="dancer in props.state.preselectionDancers
+            v-for="dancer in preselectionDancers
               .slice(2, 12)
-              .filter((_, index) => index % 2 !== 0)"
+              .filter((_, index) => index % 2 === 0)"
             :key="dancer.id"
           >
             <div
-              v-if="props.state.preselectionDancers[1]"
               class="px-6 py-4 mt-2 bg-red-700 opacity-70 text-white w-[300px] flex items-center justify-between text-right text-xl font-bold"
             >
               <div>
@@ -64,13 +69,12 @@ const props = defineProps<{
         </ul>
         <ul>
           <li
-            v-for="dancer in props.state.preselectionDancers
+            v-for="dancer in preselectionDancers
               .slice(2, 12)
-              .filter((_, index) => index % 2 === 0)"
+              .filter((_, index) => index % 2 !== 0)"
             :key="dancer.id"
           >
             <div
-              v-if="props.state.preselectionDancers[1]"
               class="px-6 py-4 mt-2 bg-blue-600 opacity-70 text-white w-[300px] flex items-center justify-between text-left text-xl font-bold"
             >
               <div>

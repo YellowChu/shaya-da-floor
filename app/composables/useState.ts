@@ -7,6 +7,7 @@ export enum CurrentViewEnum {
 export interface PreselectionDancer {
   id: number;
   name: string;
+  archived: boolean;
 }
 
 export interface IState {
