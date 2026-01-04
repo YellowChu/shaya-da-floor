@@ -2,5 +2,7 @@
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: false },
-  modules: ['@nuxt/eslint', '@nuxt/image', '@nuxtjs/tailwindcss']
+  ssr: false,
+  modules: ['@nuxt/eslint', '@nuxt/image', '@nuxtjs/tailwindcss'],
+  css: ["~/assets/css/main.css"]
 })

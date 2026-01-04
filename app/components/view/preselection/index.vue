@@ -13,7 +13,7 @@ const preselectionDancers = computed(() =>
 <template>
   <div class="pt-32 flex flex-col items-center">
     <h2
-      class="text-5xl font-bold tracking-tight text-red-700"
+      class="text-8xl tracking-wide font-bold text-red-700"
     >
       PRESELECTION
     </h2>
@@ -24,7 +24,7 @@ const preselectionDancers = computed(() =>
     >
       <div
         v-if="preselectionDancers[0]"
-        class="px-8 py-6 bg-red-700 text-white w-[400px] flex gap-8 items-center justify-between text-right text-4xl font-bold"
+        class="px-8 py-6 bg-red-700 text-white w-[400px] flex gap-8 items-center justify-between text-right text-5xl font-bold tracking-wider"
       >
         <div>
           {{ preselectionDancers[0].id }}
@@ -35,7 +35,7 @@ const preselectionDancers = computed(() =>
       </div>
       <div
         v-if="preselectionDancers[1]"
-        class="px-8 py-6 bg-blue-600 text-white w-[400px] flex gap-8 items-center justify-between text-right text-4xl font-bold"
+        class="px-8 py-6 bg-blue-600 text-white w-[400px] flex gap-8 items-center justify-between text-right text-5xl font-bold tracking-wider"
       >
         <div>
           {{ preselectionDancers[1].name }}
@@ -56,7 +56,7 @@ const preselectionDancers = computed(() =>
             :key="dancer.id"
           >
             <div
-              class="px-6 py-4 mt-2 bg-red-700 opacity-70 text-white w-[300px] flex items-center justify-between text-right text-xl font-bold"
+              class="px-6 py-4 mt-2 bg-red-700 opacity-70 text-white w-[300px] flex items-center justify-between text-right text-3xl font-bold tracking-wider"
             >
               <div>
                 {{ dancer.id }}
@@ -75,7 +75,7 @@ const preselectionDancers = computed(() =>
             :key="dancer.id"
           >
             <div
-              class="px-6 py-4 mt-2 bg-blue-600 opacity-70 text-white w-[300px] flex items-center justify-between text-left text-xl font-bold"
+              class="px-6 py-4 mt-2 bg-blue-600 opacity-70 text-white w-[300px] flex items-center justify-between text-left text-3xl font-bold tracking-wider"
             >
               <div>
                 {{ dancer.name }}

@@ -5,7 +5,7 @@
 <style>
 body {
   margin: 0;
-  font-family: Rockwell Extra Bold, Rockwell Bold, monospace;
+  font-family: "Open Sans", sans-serif;
   background-color: #ffffff;
   color: #000000;
 }

@@ -1,5 +1,13 @@
 <script lang="ts" setup>
 const modelValue = defineModel<CurrentViewEnum>();
+
+const emit = defineEmits<{
+  (e: "save"): void;
+}>();
+
+watch(modelValue, () => {
+  emit("save");
+});
 </script>
 
 <template>

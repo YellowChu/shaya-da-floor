@@ -1,0 +1,71 @@
+@font-face {
+  font-family: "Neutronic Compressed";
+  src: url("/fonts/thin.otf") format("opentype");
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Neutronic Compressed";
+  src: url("/fonts/light.otf") format("opentype");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Neutronic Compressed";
+  src: url("/fonts/regular.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Neutronic Compressed";
+  src: url("/fonts/medium.otf") format("opentype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Neutronic Compressed";
+  src: url("/fonts/semibold.otf") format("opentype");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Neutronic Compressed";
+  src: url("/fonts/bold.otf") format("opentype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Neutronic Compressed";
+  src: url("/fonts/extrabold.otf") format("opentype");
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Neutronic Compressed";
+  src: url("/fonts/heavy.otf") format("opentype");
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Neutronic Compressed";
+  src: url("/fonts/black.otf") format("opentype");
+  font-weight: 950;
+  font-style: normal;
+  font-display: swap;
+}

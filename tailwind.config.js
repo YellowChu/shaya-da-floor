@@ -32,6 +32,7 @@ export default {
       },
       fontFamily: {
         'dance': ['Inter', 'sans-serif'],
+        'neutronic': ['Neutronic Compressed', 'sans-serif'],
       },
       animation: {
         'bounce-slow': 'bounce 3s infinite',
