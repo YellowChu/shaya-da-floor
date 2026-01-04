@@ -13,7 +13,7 @@ const preselectionDancers = computed(() =>
 <template>
   <div class="pt-32 flex flex-col items-center">
     <h2
-      class="text-8xl tracking-wide font-bold text-shaya-primary-light"
+      class="text-8xl tracking-wide font-bold text-shaya-primary-dark"
     >
       PRESELECTION
     </h2>
@@ -24,7 +24,7 @@ const preselectionDancers = computed(() =>
     >
       <UiCard
         v-if="preselectionDancers[0]"
-        class="px-8 py-6 w-[400px] gap-8 flex items-center justify-between text-shaya-primary-light text-right text-5xl font-extrabold tracking-wider"
+        class="px-8 py-6 w-[400px] gap-8 flex items-center justify-between text-shaya-primary-light text-right text-5xl font-extrabold tracking-widest"
         border-weight="medium"
       >
         <div>
@@ -36,7 +36,7 @@ const preselectionDancers = computed(() =>
       </UiCard>
       <UiCard
         v-if="preselectionDancers[1]"
-        class="px-8 py-6 w-[400px] gap-8 flex items-center justify-between text-shaya-primary-dark text-left text-5xl font-extrabold tracking-wider"
+        class="px-8 py-6 w-[400px] gap-8 flex items-center justify-between text-shaya-secondary-dark text-left text-5xl font-extrabold tracking-widest"
         border-weight="medium"
         type="secondary"
       >
@@ -59,7 +59,7 @@ const preselectionDancers = computed(() =>
             :key="dancer.id"
           >
             <UiCard
-              class="px-6 py-4 mt-2 opacity-80 w-[300px] flex items-center justify-between text-shaya-primary-light text-right text-3xl font-bold tracking-wider"
+              class="px-6 py-4 mt-2 opacity-80 w-[300px] flex items-center justify-between text-shaya-primary-light text-right text-3xl font-extrabold tracking-widest"
             >
               <div>
                 {{ dancer.id }}
@@ -78,7 +78,7 @@ const preselectionDancers = computed(() =>
             :key="dancer.id"
           >
             <UiCard
-              class="px-6 py-4 mt-2 opacity-80 w-[300px] flex items-center justify-between text-shaya-primary-dark text-left text-3xl font-bold tracking-wider"
+              class="px-6 py-4 mt-2 opacity-80 w-[300px] flex items-center justify-between text-shaya-secondary-dark text-left text-3xl font-extrabold tracking-widest"
               type="secondary"
             >
               <div>

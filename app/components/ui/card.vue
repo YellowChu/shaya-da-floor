@@ -23,7 +23,7 @@ const borderWeightClass = {
 
 const borderColorClass = {
   primary: "border-[#143fff]",
-  secondary: "border-[#00045d]",
+  secondary: "border-shaya-secondary-dark",
 };
 </script>
 
