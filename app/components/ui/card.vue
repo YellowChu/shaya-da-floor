@@ -1,12 +1,47 @@
+<script lang="ts" setup>
+const props = withDefaults(
+  defineProps<{
+    borderWeight?:
+      | "regular"
+      | "medium"
+      | "bold"
+      | "extrabold";
+    type?: "primary" | "secondary";
+  }>(),
+  {
+    borderWeight: "regular",
+    type: "primary",
+  }
+);
+
+const borderWeightClass = {
+  regular: "border-[2.8px]",
+  medium: "border-[3.8px]",
+  bold: "border-[4.8px]",
+  extrabold: "border-[5.8px]",
+};
+
+const borderColorClass = {
+  primary: "border-[#143fff]",
+  secondary: "border-[#fd2f18]",
+};
+</script>
+
 <template>
-  <div class="w-[150px] h-[75px] card">
+  <div
+    class="card"
+    :class="[
+      borderColorClass[props.type],
+      borderWeightClass[props.borderWeight],
+    ]"
+  >
     <slot />
   </div>
 </template>
 
 <style scoped>
 .card {
-  border: 4px solid #143fff;
+  /* border: 4px solid #143fff; */
   background: radial-gradient(
     circle 260px at 35% 40%,
     #f6f7fe 0%,

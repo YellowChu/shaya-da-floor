@@ -16,23 +16,21 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div>
-    <ViewPreselection
-      v-if="
-        stateRef.currentView ===
-        CurrentViewEnum.Preselection
-      "
-      :state="stateRef"
-    />
-    <ViewBracket
-      v-else-if="
-        stateRef.currentView === CurrentViewEnum.Bracket
-      "
-    />
-    <ViewBattle
-      v-else-if="
-        stateRef.currentView === CurrentViewEnum.Battle
-      "
-    />
-  </div>
+  <ViewPreselection
+    v-if="
+      stateRef.currentView === CurrentViewEnum.Preselection
+    "
+    :state="stateRef"
+  />
+  <ViewBracket
+    v-else-if="
+      stateRef.currentView === CurrentViewEnum.Bracket
+    "
+    :state="stateRef"
+  />
+  <ViewBattle
+    v-else-if="
+      stateRef.currentView === CurrentViewEnum.Battle
+    "
+  />
 </template>

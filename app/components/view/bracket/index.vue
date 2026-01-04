@@ -1,47 +1,35 @@
 <script setup lang="ts">
-const matches = [];
+const props = defineProps<{
+  state: IState;
+}>();
 </script>
 
 <template>
-  <div class="pt-32 flex flex-col items-center">
+  <div
+    class="flex flex-col items-center justify-center w-full h-full"
+  >
     <div class="flex justify-center gap-4">
       <!-- Top16A -->
       <div class="flex flex-col items-center gap-6">
         <ViewBracketCard
-          dancer-a="Dancer 1"
-          dancer-b="Dancer 2"
-        />
-        <ViewBracketCard
-          dancer-a="Dancer 3"
-          dancer-b="Dancer 4"
-        />
-        <ViewBracketCard
-          dancer-a="Dancer 5"
-          dancer-b="Dancer 6"
-        />
-        <ViewBracketCard
-          dancer-a="Dancer 7"
-          dancer-b="Dancer 8"
+          v-for="(
+            battle, index
+          ) in state.bracket.top16A.slice(0, 4)"
+          :key="index"
+          :battle="battle"
+          border-weight="regular"
         />
       </div>
       <!-- Top16B -->
       <div class="flex flex-col">
         <div class="flex flex-col items-center gap-6">
           <ViewBracketCard
-            dancer-a=""
-            dancer-b="Guest 1"
-          />
-          <ViewBracketCard
-            dancer-a=""
-            dancer-b="Guest 2"
-          />
-          <ViewBracketCard
-            dancer-a=""
-            dancer-b="Guest 3"
-          />
-          <ViewBracketCard
-            dancer-a=""
-            dancer-b="Guest 4"
+            v-for="(
+              battle, index
+            ) in state.bracket.top16B.slice(0, 4)"
+            :key="index"
+            :battle="battle"
+            border-weight="regular"
           />
         </div>
       </div>
@@ -49,53 +37,52 @@ const matches = [];
       <div class="flex flex-col justify-between flex-grow">
         <div class="flex-1 flex flex-col justify-center">
           <ViewBracketCard
-            dancer-a=""
-            dancer-b=""
+            :battle="state.bracket.top8[0]"
+            border-weight="medium"
           />
         </div>
         <div class="flex-1 flex flex-col justify-center">
           <ViewBracketCard
-            dancer-a=""
-            dancer-b=""
+            :battle="state.bracket.top8[1]"
+            border-weight="medium"
           />
         </div>
       </div>
       <!-- Top4 -->
       <div class="flex flex-col justify-center flex-grow">
         <ViewBracketCard
-          dancer-a=""
-          dancer-b=""
+          :battle="state.bracket.top4[0]"
+          border-weight="bold"
         />
       </div>
       <!-- Final -->
       <div class="flex flex-col justify-center flex-grow">
         <div>
           <ViewBracketCard
-            dancer-a=""
-            dancer-b=""
-            hide-dancer-b
+            :battle="state.bracket.final"
+            border-weight="extrabold"
           />
         </div>
       </div>
       <!-- Top4 -->
       <div class="flex flex-col justify-center flex-grow">
         <ViewBracketCard
-          dancer-a=""
-          dancer-b=""
+          :battle="state.bracket.top4[1]"
+          border-weight="bold"
         />
       </div>
       <!-- Top8 -->
       <div class="flex flex-col justify-between flex-grow">
         <div class="flex-1 flex flex-col justify-center">
           <ViewBracketCard
-            dancer-a=""
-            dancer-b=""
+            :battle="state.bracket.top8[2]"
+            border-weight="medium"
           />
         </div>
         <div class="flex-1 flex flex-col justify-center">
           <ViewBracketCard
-            dancer-a=""
-            dancer-b=""
+            :battle="state.bracket.top8[3]"
+            border-weight="medium"
           />
         </div>
       </div>
@@ -103,20 +90,12 @@ const matches = [];
       <div class="flex flex-col">
         <div class="flex flex-col items-center gap-6">
           <ViewBracketCard
-            dancer-a=""
-            dancer-b="Guest 5"
-          />
-          <ViewBracketCard
-            dancer-a=""
-            dancer-b="Guest 6"
-          />
-          <ViewBracketCard
-            dancer-a=""
-            dancer-b="Guest 7"
-          />
-          <ViewBracketCard
-            dancer-a=""
-            dancer-b="Guest 8"
+            v-for="(
+              battle, index
+            ) in state.bracket.top16B.slice(4, 8)"
+            :key="index"
+            :battle="battle"
+            border-weight="regular"
           />
         </div>
       </div>
@@ -124,20 +103,12 @@ const matches = [];
       <div class="flex flex-col">
         <div class="flex flex-col items-center gap-6">
           <ViewBracketCard
-            dancer-a="Dancer 9"
-            dancer-b="Dancer 10"
-          />
-          <ViewBracketCard
-            dancer-a="Dancer 11"
-            dancer-b="Dancer 12"
-          />
-          <ViewBracketCard
-            dancer-a="Dancer 13"
-            dancer-b="Dancer 14"
-          />
-          <ViewBracketCard
-            dancer-a="Dancer 15"
-            dancer-b="Dancer 16"
+            v-for="(
+              battle, index
+            ) in state.bracket.top16A.slice(4, 8)"
+            :key="index"
+            :battle="battle"
+            border-weight="regular"
           />
         </div>
       </div>

@@ -166,7 +166,9 @@ watch(modelValue, () => {
             </div>
           </div>
         </div>
+      </div>
 
+      <div class="flex gap-16">
         <div>
           <h3 class="font-semibold mb-2">Top 8</h3>
           <div

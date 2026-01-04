@@ -1,23 +1,36 @@
 <script lang="ts" setup>
 const props = defineProps<{
-  dancerA: string;
-  dancerB: string;
-  hideDancerB?: boolean;
+  battle?: BracketBattle;
+  borderWeight: "regular" | "medium" | "bold" | "extrabold";
 }>();
 </script>
 
 <template>
-  <div class="flex flex-col gap-2">
+  <UiCard
+    class="py-2 px-3 w-[180px] h-[100px] flex flex-col justify-center items-center"
+    :border-weight="props.borderWeight"
+  >
     <div
-      class="flex items-center justify-center px-4 py-2 text-white font-bold w-[180px] h-[70px] bg-red-700 opacity-90 rounded"
+      class="text-4xl font-extrabold tracking-wider text-[#143fff] text-center w-full"
     >
-      {{ dancerA }}
+      <div
+        class="whitespace-nowrap overflow-hidden text-clip w-full"
+      >
+        <span v-if="props.battle?.dancerA.name">
+          {{ props.battle.dancerA.name }}
+        </span>
+        <span v-else>&nbsp;</span>
+      </div>
+      <div
+        class="whitespace-nowrap overflow-hidden text-clip w-full"
+      >
+        <span v-if="props.battle?.dancerB.name">
+          {{ props.battle.dancerB.name }}
+        </span>
+        <span v-else>&nbsp;</span>
+      </div>
     </div>
-    <div
-      v-if="!hideDancerB"
-      class="flex items-center justify-center px-4 py-2 text-white font-bold w-[180px] h-[70px] bg-red-700 opacity-80 rounded"
-    >
-      {{ dancerB }}
-    </div>
-  </div>
+  </UiCard>
 </template>
+
+<style></style>

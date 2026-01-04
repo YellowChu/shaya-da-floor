@@ -147,10 +147,10 @@ const defaultState: IState = {
 
 export const useLocalStorageState  = () => {
   const localStorageState = localStorage.getItem("appState");
-  const state = defaultState;
-  // const state = localStorageState
-  //   ? (JSON.parse(localStorageState) as IState)
-  //   : defaultState;
+  // const state = defaultState;
+  const state = localStorageState
+    ? (JSON.parse(localStorageState) as IState)
+    : defaultState;
 
   const updateState = (state: IState) => {
     console.log(new Blob([JSON.stringify(state)]).size)
