@@ -3,6 +3,14 @@ export default {
   theme: {
     extend: {
       colors: {
+        shaya: {
+          "primary-light": '#143fff',
+          "primary-dark": '#00045d',
+          "secondary-light": '#fd2f18',
+          "secondary-dark": '#750d01',
+          "tertiary": '#e1ced6',
+          "light": '#f6f7fe',
+        },
         primary: {
           50: '#1a001a',
           100: '#250520',

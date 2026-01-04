@@ -6,11 +6,14 @@ const props = defineProps<{
 
 <template>
   <div
-    class="flex flex-col items-center justify-center w-full h-full"
+    class="flex items-center justify-center w-full h-full"
   >
-    <div class="flex justify-center gap-4">
+    <div class="flex gap-4 pb-20">
       <!-- Top16A -->
-      <div class="flex flex-col items-center gap-6">
+      <div
+        v-if="state.bracket.hasTwoTop16"
+        class="flex flex-col items-center gap-6"
+      >
         <ViewBracketCard
           v-for="(
             battle, index
@@ -55,6 +58,9 @@ const props = defineProps<{
           border-weight="bold"
         />
       </div>
+    </div>
+
+    <div class="flex mx-4">
       <!-- Final -->
       <div class="flex flex-col justify-center flex-grow">
         <div>
@@ -64,6 +70,9 @@ const props = defineProps<{
           />
         </div>
       </div>
+    </div>
+
+    <div class="flex gap-4 pt-20">
       <!-- Top4 -->
       <div class="flex flex-col justify-center flex-grow">
         <ViewBracketCard
@@ -100,7 +109,10 @@ const props = defineProps<{
         </div>
       </div>
       <!-- Top16A -->
-      <div class="flex flex-col">
+      <div
+        v-if="state.bracket.hasTwoTop16"
+        class="flex flex-col"
+      >
         <div class="flex flex-col items-center gap-6">
           <ViewBracketCard
             v-for="(

@@ -56,7 +56,7 @@ const preselectionDancers = computed(() =>
             :key="dancer.id"
           >
             <div
-              class="px-6 py-4 mt-2 bg-red-700 opacity-70 text-white w-[300px] flex items-center justify-between text-right text-3xl font-bold tracking-wider"
+              class="px-6 py-4 mt-2 bg-red-700 opacity-80 text-white w-[300px] flex items-center justify-between text-right text-3xl font-bold tracking-wider"
             >
               <div>
                 {{ dancer.id }}
@@ -75,7 +75,7 @@ const preselectionDancers = computed(() =>
             :key="dancer.id"
           >
             <div
-              class="px-6 py-4 mt-2 bg-blue-600 opacity-70 text-white w-[300px] flex items-center justify-between text-left text-3xl font-bold tracking-wider"
+              class="px-6 py-4 mt-2 bg-blue-600 opacity-80 text-white w-[300px] flex items-center justify-between text-left text-3xl font-bold tracking-wider"
             >
               <div>
                 {{ dancer.name }}
