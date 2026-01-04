@@ -13,7 +13,7 @@ const preselectionDancers = computed(() =>
 <template>
   <div class="pt-32 flex flex-col items-center">
     <h2
-      class="text-8xl tracking-wide font-bold text-red-700"
+      class="text-8xl tracking-wide font-bold text-shaya-primary-light"
     >
       PRESELECTION
     </h2>
@@ -22,9 +22,10 @@ const preselectionDancers = computed(() =>
       v-if="preselectionDancers.length"
       class="flex gap-16 mt-12"
     >
-      <div
+      <UiCard
         v-if="preselectionDancers[0]"
-        class="px-8 py-6 bg-red-700 text-white w-[400px] flex gap-8 items-center justify-between text-right text-5xl font-bold tracking-wider"
+        class="px-8 py-6 w-[400px] gap-8 flex items-center justify-between text-shaya-primary-light text-right text-5xl font-extrabold tracking-wider"
+        border-weight="medium"
       >
         <div>
           {{ preselectionDancers[0].id }}
@@ -32,10 +33,12 @@ const preselectionDancers = computed(() =>
         <div>
           {{ preselectionDancers[0].name }}
         </div>
-      </div>
-      <div
+      </UiCard>
+      <UiCard
         v-if="preselectionDancers[1]"
-        class="px-8 py-6 bg-blue-600 text-white w-[400px] flex gap-8 items-center justify-between text-right text-5xl font-bold tracking-wider"
+        class="px-8 py-6 w-[400px] gap-8 flex items-center justify-between text-shaya-primary-dark text-left text-5xl font-extrabold tracking-wider"
+        border-weight="medium"
+        type="secondary"
       >
         <div>
           {{ preselectionDancers[1].name }}
@@ -43,7 +46,7 @@ const preselectionDancers = computed(() =>
         <div>
           {{ preselectionDancers[1].id }}
         </div>
-      </div>
+      </UiCard>
     </div>
 
     <div class="mt-12 flex flex-col items-center gap-4">
@@ -55,8 +58,8 @@ const preselectionDancers = computed(() =>
               .filter((_, index) => index % 2 === 0)"
             :key="dancer.id"
           >
-            <div
-              class="px-6 py-4 mt-2 bg-red-700 opacity-80 text-white w-[300px] flex items-center justify-between text-right text-3xl font-bold tracking-wider"
+            <UiCard
+              class="px-6 py-4 mt-2 opacity-80 w-[300px] flex items-center justify-between text-shaya-primary-light text-right text-3xl font-bold tracking-wider"
             >
               <div>
                 {{ dancer.id }}
@@ -64,7 +67,7 @@ const preselectionDancers = computed(() =>
               <div>
                 {{ dancer.name }}
               </div>
-            </div>
+            </UiCard>
           </li>
         </ul>
         <ul>
@@ -74,8 +77,9 @@ const preselectionDancers = computed(() =>
               .filter((_, index) => index % 2 !== 0)"
             :key="dancer.id"
           >
-            <div
-              class="px-6 py-4 mt-2 bg-blue-600 opacity-80 text-white w-[300px] flex items-center justify-between text-left text-3xl font-bold tracking-wider"
+            <UiCard
+              class="px-6 py-4 mt-2 opacity-80 w-[300px] flex items-center justify-between text-shaya-primary-dark text-left text-3xl font-bold tracking-wider"
+              type="secondary"
             >
               <div>
                 {{ dancer.name }}
@@ -83,7 +87,7 @@ const preselectionDancers = computed(() =>
               <div>
                 {{ dancer.id }}
               </div>
-            </div>
+            </UiCard>
           </li>
         </ul>
       </div>

@@ -11,10 +11,10 @@ const props = defineProps<{
     :border-weight="props.borderWeight"
   >
     <div
-      class="text-4xl font-extrabold tracking-wider text-center w-full"
+      class="text-4xl font-extrabold tracking-wider w-full"
     >
       <div
-        class="whitespace-nowrap overflow-hidden text-clip w-full"
+        class="whitespace-nowrap overflow-hidden text-clip w-full text-left"
         :class="
           props.battle?.dancerA.isLoser
             ? 'text-shaya-tertiary'
@@ -26,8 +26,11 @@ const props = defineProps<{
         </span>
         <span v-else>&nbsp;</span>
       </div>
+      <hr
+        class="h-[0.5px] bg-shaya-primary-light border-0"
+      />
       <div
-        class="whitespace-nowrap overflow-hidden text-clip w-full"
+        class="whitespace-nowrap overflow-hidden text-clip w-full text-right"
         :class="
           props.battle?.dancerB.isLoser
             ? 'text-shaya-tertiary'
