@@ -1,5 +1,7 @@
 <script lang="ts" setup>
-const modelValue = defineModel<CurrentViewEnum>();
+const modelValue = defineModel<CurrentViewEnum>({
+  required: true,
+});
 
 const emit = defineEmits<{
   (e: "save"): void;

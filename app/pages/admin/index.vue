@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-const { state, updateState } = useState();
+const { state, updateState } = useLocalStorageState();
 
 const currentView = ref<CurrentViewEnum>(state.currentView);
 
@@ -31,11 +31,10 @@ const updateStateFromAdmin = () => {
         @save="updateStateFromAdmin"
       />
 
-      <div>
-        <h2 class="text-lg font-bold">Bracket</h2>
-
-        <div class="flex flex-col gap-4 my-4">Bracket</div>
-      </div>
+      <AdminBracket
+        v-model="bracket"
+        @save="updateStateFromAdmin"
+      />
     </div>
   </div>
 </template>

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-const { state } = useState();
+const { state } = useLocalStorageState();
 const stateRef = ref<IState>(state);
 
 onMounted(() => {

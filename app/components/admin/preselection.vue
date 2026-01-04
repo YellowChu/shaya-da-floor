@@ -3,7 +3,7 @@ import Papa from "papaparse";
 
 const props = withDefaults(
   defineProps<{
-    modelValue?: PreselectionDancer[];
+    modelValue: PreselectionDancer[];
   }>(),
   {
     modelValue: () => [],
