@@ -14,7 +14,7 @@
           <ViewBattleDancerBorder />
           <div class="p-3">
             <NuxtImg
-              src="/dancerA.png"
+              src="/dancerA.jpg"
               class="object-cover rounded-lg"
               width="400"
             />
@@ -45,7 +45,7 @@
           <ViewBattleDancerBorder />
           <div class="p-3">
             <NuxtImg
-              src="/dancerB.png"
+              src="/dancerB.jpg"
               class="object-cover rounded-lg"
               width="400"
             />
