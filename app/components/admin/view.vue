@@ -13,7 +13,9 @@ watch(modelValue, () => {
 </script>
 
 <template>
-  <div>
+  <UiSection
+    class="!bg-orange-100 fixed bottom-0 right-0 mb-3 mr-3"
+  >
     <h2 class="text-lg font-bold">View</h2>
     <div class="flex flex-col">
       <div>
@@ -44,5 +46,5 @@ watch(modelValue, () => {
         <label for="battle">Battle</label>
       </div>
     </div>
-  </div>
+  </UiSection>
 </template>

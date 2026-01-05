@@ -21,7 +21,6 @@ export interface BracketBattle {
 }
 
 export interface Bracket {
-  winner: string;
   hasTwoTop16: boolean;
   top16A: BracketBattle[];
   top16B: BracketBattle[];
@@ -30,17 +29,33 @@ export interface Bracket {
   final: BracketBattle;
 }
 
+export interface BattleDancer {
+  name: string;
+  image: string;
+}
+
+export interface Battle {
+  dancerA: BattleDancer;
+  dancerB: BattleDancer;
+  dancerX: BattleDancer;
+  dancerY: BattleDancer;
+  title: string;
+  useXY: boolean;
+  useImages: boolean;
+}
+
 export interface IState {
   currentView: CurrentViewEnum;
   preselectionDancers: PreselectionDancer[];
   bracket: Bracket;
+  battle: Battle;
+  battleDancers: BattleDancer[];
 }
 
 const defaultState: IState = {
   currentView: CurrentViewEnum.Preselection,
   preselectionDancers: [],
   bracket: {
-    winner: "",
     hasTwoTop16: false,
     top16A: [
       {
@@ -142,15 +157,25 @@ const defaultState: IState = {
       dancerA: { name: "", isLoser: false },
       dancerB: { name: "", isLoser: false },
     },
-  }
+  },
+  battle: {
+    dancerA: { name: "", image: "" },
+    dancerB: { name: "", image: "" },
+    dancerX: { name: "", image: "" },
+    dancerY: { name: "", image: "" },
+    title: "",
+    useXY: false,
+    useImages: false,
+  },
+  battleDancers: [],
 };
 
 export const useLocalStorageState  = () => {
   const localStorageState = localStorage.getItem("appState");
-  // const state = defaultState;
-  const state = localStorageState
-    ? (JSON.parse(localStorageState) as IState)
-    : defaultState;
+  const state = defaultState;
+  // const state = localStorageState
+  //   ? (JSON.parse(localStorageState) as IState)
+  //   : defaultState;
 
   const updateState = (state: IState) => {
     console.log(new Blob([JSON.stringify(state)]).size)

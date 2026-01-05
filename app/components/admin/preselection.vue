@@ -191,50 +191,37 @@ const parseCsv = (e: Event) => {
 </script>
 
 <template>
-  <div>
+  <UiSection>
     <h2 class="text-lg font-bold">Preselection</h2>
 
-    <div class="flex flex-col gap-4 my-4">
-      <div class="flex flex-col">
-        <label
-          class="text-sm font-medium mb-2"
-          for="csv-input"
-          >Upload CSV</label
-        >
-
+    <UiSection class="flex flex-col gap-4 mt-2">
+      <input
+        type="file"
+        accept=".csv,text/csv"
+        @change="parseCsv"
+      />
+      <div class="flex w-full gap-2">
         <input
-          id="csv-input"
-          type="file"
-          accept=".csv,text/csv"
-          @change="parseCsv"
+          v-model="newItemName"
+          type="text"
+          class="flex-1 px-3 py-2 border border-blue-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          placeholder="Enter dancer name"
+          @keydown="handleNewItemKeydown"
         />
-      </div>
 
-      <div class="flex flex-col">
-        <label class="text-sm font-medium mb-2">
-          Add New Dancer
-        </label>
-        <div class="flex gap-2">
-          <input
-            v-model="newItemName"
-            type="text"
-            class="flex-1 px-3 py-2 border border-blue-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            placeholder="Enter dancer name"
-            @keydown="handleNewItemKeydown"
-          />
-          <button
-            class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors duration-200"
-            @click="addNewItem"
-            :disabled="!newItemName.trim()"
-            title="Add Dancer"
-          >
-            Add
-          </button>
-        </div>
+        <UiButton
+          @click="addNewItem"
+          :disabled="!newItemName.trim()"
+        >
+          Add
+        </UiButton>
       </div>
-    </div>
+    </UiSection>
 
-    <div class="max-h-[24rem] overflow-scroll">
+    <UiSection
+      v-if="modelValue.length"
+      class="mt-2 max-h-[24rem] overflow-y-scroll"
+    >
       <TransitionGroup
         name="dancer-list"
         tag="div"
@@ -368,14 +355,16 @@ const parseCsv = (e: Event) => {
           </div>
         </div>
       </TransitionGroup>
-    </div>
-    <button
-      class="mt-4 px-2 py-1 text-xs bg-green-500 text-white rounded hover:bg-green-600 transition-colors duration-200"
+    </UiSection>
+
+    <UiButton
+      class="mt-4 px-2 py-1 text-xs transition-colors duration-200"
       @click="$emit('save')"
+      variant="success"
     >
       Save
-    </button>
-  </div>
+    </UiButton>
+  </UiSection>
 </template>
 
 <style scoped>
