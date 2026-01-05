@@ -1,6 +1,6 @@
 <template>
   <div
-    class="w-[100vw] h-[100vh] bg-[url('/background.png')] bg-cover bg-center"
+    class="w-[100vw] h-[100vh] bg-[url('/images/background.png')] bg-cover bg-center"
   >
     <div class="flex flex-col justify-between h-full">
       <div
@@ -17,7 +17,7 @@
 
       <div class="flex justify-center w-full">
         <NuxtImg
-          src="/footer-logo.png"
+          src="/images/footer-logo.png"
           width="150"
         />
       </div>

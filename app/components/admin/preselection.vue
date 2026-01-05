@@ -194,7 +194,7 @@ const parseCsv = (e: Event) => {
   <UiSection>
     <h2 class="text-lg font-bold">Preselection</h2>
 
-    <UiSection class="flex flex-col gap-4 mt-2">
+    <UiSection class="flex flex-col gap-4 mt-2 !bg-white">
       <input
         type="file"
         accept=".csv,text/csv"
@@ -220,7 +220,7 @@ const parseCsv = (e: Event) => {
 
     <UiSection
       v-if="modelValue.length"
-      class="mt-2 max-h-[24rem] overflow-y-scroll"
+      class="mt-2 max-h-[24rem] overflow-y-scroll !bg-white"
     >
       <TransitionGroup
         name="dancer-list"

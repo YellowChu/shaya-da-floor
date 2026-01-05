@@ -38,5 +38,11 @@ const updateStateFromAdmin = () => {
       v-model="bracket"
       @save="updateStateFromAdmin"
     />
+
+    <AdminBattle
+      v-model:battle-dancers="battleDancers"
+      v-model:battle="battle"
+      @save="updateStateFromAdmin"
+    />
   </div>
 </template>

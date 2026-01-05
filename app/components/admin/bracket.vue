@@ -46,7 +46,7 @@ watch(modelValue, () => {
         </div>
       </div>
 
-      <UiSection class="overflow-x-auto">
+      <UiSection class="overflow-x-auto !bg-white">
         <div class="min-w-max">
           <div class="flex gap-8">
             <div>
