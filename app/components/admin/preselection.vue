@@ -162,8 +162,6 @@ const parseCsv = (e: Event) => {
   Papa.parse(file, {
     skipEmptyLines: true,
     complete: (results) => {
-      console.log(results.data);
-
       const rows = results.data as string[][];
       const dancers: PreselectionDancer[] = [];
 
@@ -242,7 +240,7 @@ const parseCsv = (e: Event) => {
             <span
               v-if="editingId !== dancer.id"
               class="flex-1 cursor-pointer hover:text-blue-600 transition-colors"
-              @click="startEdit(dancer)"
+              @click="toggleArchive(dancer.id)"
               :title="'Click to edit ' + dancer.name"
             >
               <del
@@ -271,14 +269,14 @@ const parseCsv = (e: Event) => {
                 placeholder="Enter dancer name"
               />
               <button
-                class="px-2 py-1 text-xs bg-green-500 text-white rounded hover:bg-green-600 transition-colors duration-200"
+                class="px-2 py-1 text-sm bg-green-500 text-white rounded hover:bg-green-600 transition-colors duration-200"
                 @click="saveEdit"
                 title="Save"
               >
                 ✓
               </button>
               <button
-                class="px-2 py-1 text-xs bg-gray-500 text-white rounded hover:bg-gray-600 transition-colors duration-200"
+                class="px-2 py-1 text-sm bg-gray-500 text-white rounded hover:bg-gray-600 transition-colors duration-200"
                 @click="cancelEdit"
                 title="Cancel"
               >
@@ -291,7 +289,7 @@ const parseCsv = (e: Event) => {
             <!-- Edit button (only show when not in edit mode) -->
             <button
               v-if="editingId !== dancer.id"
-              class="px-2 py-1 text-xs bg-yellow-500 text-white rounded hover:bg-yellow-600 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors duration-200"
+              class="px-2 py-1 text-sm bg-yellow-500 text-white rounded hover:bg-yellow-600 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors duration-200"
               @click="startEdit(dancer)"
               :disabled="dancer.archived"
               title="Edit Name"
@@ -300,7 +298,7 @@ const parseCsv = (e: Event) => {
             </button>
 
             <button
-              class="px-2 py-1 text-xs bg-blue-500 text-white rounded hover:bg-blue-600 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors duration-200"
+              class="px-2 py-1 text-sm bg-blue-500 text-white rounded hover:bg-blue-600 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors duration-200"
               @click="moveUp(index)"
               :disabled="
                 dancer.archived || editingId === dancer.id
@@ -310,7 +308,7 @@ const parseCsv = (e: Event) => {
               ↑
             </button>
             <button
-              class="px-2 py-1 text-xs bg-blue-500 text-white rounded hover:bg-blue-600 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors duration-200"
+              class="px-2 py-1 text-sm bg-blue-500 text-white rounded hover:bg-blue-600 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors duration-200"
               @click="moveDown(index)"
               :disabled="
                 dancer.archived || editingId === dancer.id
@@ -320,7 +318,7 @@ const parseCsv = (e: Event) => {
               ↓
             </button>
             <button
-              class="px-2 py-1 text-xs bg-green-500 text-white rounded hover:bg-green-600 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors duration-200"
+              class="px-2 py-1 text-sm bg-green-500 text-white rounded hover:bg-green-600 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors duration-200"
               @click="moveToStart(index)"
               :disabled="
                 dancer.archived || editingId === dancer.id
@@ -330,7 +328,7 @@ const parseCsv = (e: Event) => {
               ⇈
             </button>
             <button
-              class="px-2 py-1 text-xs bg-green-500 text-white rounded hover:bg-green-600 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors duration-200"
+              class="px-2 py-1 text-sm bg-green-500 text-white rounded hover:bg-green-600 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors duration-200"
               @click="moveToEnd(index)"
               :disabled="
                 dancer.archived || editingId === dancer.id
@@ -339,7 +337,7 @@ const parseCsv = (e: Event) => {
             >
               ⇊
             </button>
-            <button
+            <!-- <button
               class="px-2 py-1 text-xs text-white rounded disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors duration-200"
               :class="
                 dancer.archived
@@ -351,7 +349,7 @@ const parseCsv = (e: Event) => {
               title="Toggle Archive"
             >
               {{ dancer.archived ? "✓" : "✕" }}
-            </button>
+            </button> -->
           </div>
         </div>
       </TransitionGroup>
