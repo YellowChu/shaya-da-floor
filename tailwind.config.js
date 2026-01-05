@@ -40,7 +40,8 @@ export default {
       },
       fontFamily: {
         'dance': ['Inter', 'sans-serif'],
-        'neutronic': ['Neutronic Compressed', 'sans-serif'],
+        'neutronic-compressed': ['Neutronic Compressed', 'sans-serif'],
+        'neutronic': ['Neutronic', 'sans-serif'],
       },
       animation: {
         'bounce-slow': 'bounce 3s infinite',

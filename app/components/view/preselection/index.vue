@@ -11,7 +11,7 @@ const preselectionDancers = computed(() =>
 </script>
 
 <template>
-  <div class="pt-32 flex flex-col items-center">
+  <div class="flex flex-col items-center">
     <h2
       class="text-8xl tracking-wide font-bold text-shaya-primary-dark"
     >
@@ -20,27 +20,31 @@ const preselectionDancers = computed(() =>
 
     <div
       v-if="preselectionDancers.length"
-      class="flex gap-16 mt-12"
+      class="flex gap-16 mt-4 font-neutronic"
     >
       <UiCard
         v-if="preselectionDancers[0]"
-        class="px-8 py-6 w-[400px] gap-8 flex items-center justify-between text-shaya-primary-light text-right text-5xl font-extrabold tracking-widest"
+        class="px-8 py-6 w-[500px] gap-8 flex items-center justify-between text-shaya-primary-light text-right text-4xl font-bold tracking-tight"
         border-weight="medium"
       >
         <div>
           {{ preselectionDancers[0].id }}
         </div>
-        <div>
+        <div
+          class="whitespace-nowrap overflow-hidden text-clip"
+        >
           {{ preselectionDancers[0].name }}
         </div>
       </UiCard>
       <UiCard
         v-if="preselectionDancers[1]"
-        class="px-8 py-6 w-[400px] gap-8 flex items-center justify-between text-shaya-secondary-dark text-left text-5xl font-extrabold tracking-widest"
+        class="px-8 py-6 w-[500px] gap-8 flex items-center justify-between text-shaya-secondary-dark text-left text-4xl font-bold tracking-tight"
         border-weight="medium"
         type="secondary"
       >
-        <div>
+        <div
+          class="whitespace-nowrap overflow-hidden text-clip"
+        >
           {{ preselectionDancers[1].name }}
         </div>
         <div>
@@ -49,7 +53,9 @@ const preselectionDancers = computed(() =>
       </UiCard>
     </div>
 
-    <div class="mt-12 flex flex-col items-center gap-4">
+    <div
+      class="mt-12 flex flex-col items-center gap-4 font-neutronic"
+    >
       <div class="flex gap-16">
         <ul>
           <li
@@ -59,12 +65,14 @@ const preselectionDancers = computed(() =>
             :key="dancer.id"
           >
             <UiCard
-              class="px-6 py-4 mt-2 opacity-80 w-[300px] flex items-center justify-between text-shaya-primary-light text-right text-3xl font-extrabold tracking-widest"
+              class="px-6 py-4 mt-2 opacity-80 w-[350px] flex items-center justify-between text-shaya-primary-light text-right text-2xl font-bold tracking-tighter"
             >
               <div>
                 {{ dancer.id }}
               </div>
-              <div>
+              <div
+                class="whitespace-nowrap overflow-hidden text-clip"
+              >
                 {{ dancer.name }}
               </div>
             </UiCard>
@@ -78,10 +86,12 @@ const preselectionDancers = computed(() =>
             :key="dancer.id"
           >
             <UiCard
-              class="px-6 py-4 mt-2 opacity-80 w-[300px] flex items-center justify-between text-shaya-secondary-dark text-left text-3xl font-extrabold tracking-widest"
+              class="px-6 py-4 mt-2 opacity-80 w-[350px] flex items-center justify-between text-shaya-secondary-dark text-left text-2xl font-bold tracking-tighter"
               type="secondary"
             >
-              <div>
+              <div
+                class="whitespace-nowrap overflow-hidden text-clip"
+              >
                 {{ dancer.name }}
               </div>
               <div>
