@@ -28,7 +28,7 @@ const allDancersHavePhoto = computed(() => {
         class="flex flex-col items-center gap-4"
       >
         <div class="relative">
-          <ViewBattleDancerBorder />
+          <ViewBattleBorder />
           <div class="p-6">
             <NuxtImg
               :src="
@@ -84,7 +84,7 @@ const allDancersHavePhoto = computed(() => {
         class="flex flex-col items-center gap-4"
       >
         <div class="relative">
-          <ViewBattleDancerBorder />
+          <ViewBattleBorder />
           <div class="p-6">
             <NuxtImg
               :src="
