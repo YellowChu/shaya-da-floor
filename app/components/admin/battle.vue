@@ -348,13 +348,18 @@ const onDropDancerY = (event: DragEvent) => {
           <div class="flex flex-col gap-2">
             <div class="flex gap-2">
               <UiSection
-                @drop="onDropDancerA"
+                @drop="
+                  battle.useXY && onDropDancerA($event)
+                "
                 @dragenter.prevent
                 @dragover.prevent
                 class="flex flex-col items-center transition-transform duration-200"
-                :class="
-                  isDragging && ' scale-105 !bg-slate-200'
-                "
+                :class="[
+                  isDragging &&
+                    battle.useXY &&
+                    'scale-105 !bg-slate-200',
+                  !battle.useXY && 'bg-green-100',
+                ]"
               >
                 <NuxtImg
                   v-if="battle.dancerA.image"
@@ -377,13 +382,18 @@ const onDropDancerY = (event: DragEvent) => {
                 </div>
               </UiSection>
               <UiSection
-                @drop="onDropDancerB"
+                @drop="
+                  battle.useXY && onDropDancerB($event)
+                "
                 @dragenter.prevent
                 @dragover.prevent
                 class="flex flex-col items-center transition-transform duration-200"
-                :class="
-                  isDragging && ' scale-105 !bg-slate-200'
-                "
+                :class="[
+                  isDragging &&
+                    battle.useXY &&
+                    'scale-105 !bg-slate-200',
+                  !battle.useXY && 'bg-green-100',
+                ]"
               >
                 <NuxtImg
                   v-if="battle.dancerB.image"
@@ -437,13 +447,18 @@ const onDropDancerY = (event: DragEvent) => {
           <div class="flex flex-col gap-2">
             <div class="flex gap-2">
               <UiSection
-                @drop="onDropDancerX"
+                @drop="
+                  battle.useXY && onDropDancerX($event)
+                "
                 @dragenter.prevent
                 @dragover.prevent
                 class="flex flex-col items-center transition-transform duration-200"
-                :class="
-                  isDragging && ' scale-105 !bg-slate-200'
-                "
+                :class="[
+                  isDragging &&
+                    !battle.useXY &&
+                    'scale-105 !bg-slate-200',
+                  battle.useXY && 'bg-green-100',
+                ]"
               >
                 <NuxtImg
                   v-if="battle.dancerX.image"
@@ -466,13 +481,18 @@ const onDropDancerY = (event: DragEvent) => {
                 </div>
               </UiSection>
               <UiSection
-                @drop="onDropDancerY"
+                @drop="
+                  battle.useXY && onDropDancerY($event)
+                "
                 @dragenter.prevent
                 @dragover.prevent
                 class="flex flex-col items-center transition-transform duration-200"
-                :class="
-                  isDragging && ' scale-105 !bg-slate-200'
-                "
+                :class="[
+                  isDragging &&
+                    !battle.useXY &&
+                    'scale-105 !bg-slate-200',
+                  battle.useXY && 'bg-green-100',
+                ]"
               >
                 <NuxtImg
                   v-if="battle.dancerY.image"
