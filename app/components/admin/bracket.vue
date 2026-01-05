@@ -46,297 +46,133 @@ watch(modelValue, () => {
         </div>
       </div>
 
-      <UiSection class="overflow-x-auto !bg-white">
-        <div class="min-w-max">
-          <div class="flex gap-8">
-            <div>
-              <h3 class="font-semibold mb-2">Top 16A</h3>
-              <div class="flex flex-col gap-2">
-                <div
-                  v-for="idx in Array(TOP_16_LENGTH).keys()"
-                  :key="idx"
-                  class="mb-2 item"
-                >
-                  <h4 class="font-semibold">
-                    Battle {{ idx + 1 }}
-                  </h4>
-                  <div
-                    v-if="modelValue.top16A[idx]"
-                    class="flex flex-col gap-1"
-                  >
-                    <div class="flex gap-1">
-                      <input
-                        class="border-2 border-gray-300 px-2 rounded"
-                        type="text"
-                        placeholder="Dancer A"
-                        v-model="
-                          modelValue.top16A[idx].dancerA
-                            .name
-                        "
-                      />
-                      <input
-                        type="checkbox"
-                        v-model="
-                          modelValue.top16A[idx].dancerA
-                            .isLoser
-                        "
-                      />
-                    </div>
-                    <div class="flex gap-1">
-                      <input
-                        class="border-2 border-gray-300 px-2 rounded"
-                        type="text"
-                        placeholder="Dancer B"
-                        v-model="
-                          modelValue.top16A[idx].dancerB
-                            .name
-                        "
-                      />
-                      <input
-                        type="checkbox"
-                        v-model="
-                          modelValue.top16A[idx].dancerB
-                            .isLoser
-                        "
-                      />
-                    </div>
-                  </div>
-                  <div
-                    v-else
-                    class="text-red-900"
-                  >
-                    No battle data
-                  </div>
-                </div>
-              </div>
-            </div>
+      <UiSection class="!bg-white overflow-x-auto">
+        <div
+          class="grid grid-cols-5 grid-rows-8 gap-x-8 gap-y-3 min-w-max"
+        >
+          <!-- Column 1: 1–8 -->
+          <div class="col-[1] row-[1]">
+            <AdminBracketBattle
+              v-model="modelValue.top16A[0]"
+            />
+          </div>
+          <div class="col-[1] row-[2]">
+            <AdminBracketBattle
+              v-model="modelValue.top16A[1]"
+            />
+          </div>
+          <div class="col-[1] row-[3]">
+            <AdminBracketBattle
+              v-model="modelValue.top16A[2]"
+            />
+          </div>
+          <div class="col-[1] row-[4]">
+            <AdminBracketBattle
+              v-model="modelValue.top16A[3]"
+            />
+          </div>
+          <div class="col-[1] row-[5]">
+            <AdminBracketBattle
+              v-model="modelValue.top16A[4]"
+            />
+          </div>
+          <div class="col-[1] row-[6]">
+            <AdminBracketBattle
+              v-model="modelValue.top16A[5]"
+            />
+          </div>
+          <div class="col-[1] row-[7]">
+            <AdminBracketBattle
+              v-model="modelValue.top16A[6]"
+            />
+          </div>
+          <div class="col-[1] row-[8]">
+            <AdminBracketBattle
+              v-model="modelValue.top16A[7]"
+            />
+          </div>
 
-            <div>
-              <h3 class="font-semibold mb-2">Top 16B</h3>
-              <div class="flex flex-col gap-2">
-                <div
-                  v-for="idx in Array(TOP_16_LENGTH).keys()"
-                  :key="idx"
-                  class="mb-2"
-                >
-                  <h4 class="font-semibold">
-                    Battle {{ idx + 1 }}
-                  </h4>
-                  <div
-                    v-if="modelValue.top16B[idx]"
-                    class="flex flex-col gap-1"
-                  >
-                    <div class="flex gap-1">
-                      <input
-                        class="border-2 border-gray-300 px-2 rounded"
-                        type="text"
-                        placeholder="Dancer A"
-                        v-model="
-                          modelValue.top16B[idx].dancerA
-                            .name
-                        "
-                      />
-                      <input
-                        type="checkbox"
-                        v-model="
-                          modelValue.top16B[idx].dancerA
-                            .isLoser
-                        "
-                      />
-                    </div>
-                    <div class="flex gap-1">
-                      <input
-                        class="border-2 border-gray-300 px-2 rounded"
-                        type="text"
-                        placeholder="Dancer B"
-                        v-model="
-                          modelValue.top16B[idx].dancerB
-                            .name
-                        "
-                      />
-                      <input
-                        type="checkbox"
-                        v-model="
-                          modelValue.top16B[idx].dancerB
-                            .isLoser
-                        "
-                      />
-                    </div>
-                  </div>
-                  <div
-                    v-else
-                    class="text-red-900"
-                  >
-                    No battle data
-                  </div>
-                </div>
-              </div>
-            </div>
+          <!-- Column 2: 9–16 -->
+          <div class="col-[2] row-[1]">
+            <AdminBracketBattle
+              v-model="modelValue.top16B[0]"
+            />
+          </div>
+          <div class="col-[2] row-[2]">
+            <AdminBracketBattle
+              v-model="modelValue.top16B[1]"
+            />
+          </div>
+          <div class="col-[2] row-[3]">
+            <AdminBracketBattle
+              v-model="modelValue.top16B[2]"
+            />
+          </div>
+          <div class="col-[2] row-[4]">
+            <AdminBracketBattle
+              v-model="modelValue.top16B[3]"
+            />
+          </div>
+          <div class="col-[2] row-[5]">
+            <AdminBracketBattle
+              v-model="modelValue.top16B[4]"
+            />
+          </div>
+          <div class="col-[2] row-[6]">
+            <AdminBracketBattle
+              v-model="modelValue.top16B[5]"
+            />
+          </div>
+          <div class="col-[2] row-[7]">
+            <AdminBracketBattle
+              v-model="modelValue.top16B[6]"
+            />
+          </div>
+          <div class="col-[2] row-[8]">
+            <AdminBracketBattle
+              v-model="modelValue.top16B[7]"
+            />
+          </div>
 
-            <div>
-              <h3 class="font-semibold mb-2">Top 8</h3>
-              <div
-                class="grid grid-cols-1 grid-rows-4 grid-flow-col gap-2"
-              >
-                <div
-                  v-for="idx in Array(TOP_8_LENGTH).keys()"
-                  :key="idx"
-                  class="mb-2"
-                >
-                  <h4 class="font-semibold">
-                    Battle {{ idx + 1 }}
-                  </h4>
-                  <div
-                    v-if="modelValue.top8[idx]"
-                    class="flex flex-col gap-1"
-                  >
-                    <div class="flex gap-1">
-                      <input
-                        class="border-2 border-gray-300 px-2 rounded"
-                        type="text"
-                        placeholder="Dancer A"
-                        v-model="
-                          modelValue.top8[idx].dancerA.name
-                        "
-                      />
-                      <input
-                        type="checkbox"
-                        v-model="
-                          modelValue.top8[idx].dancerA
-                            .isLoser
-                        "
-                      />
-                    </div>
-                    <div class="flex gap-1">
-                      <input
-                        class="border-2 border-gray-300 px-2 rounded"
-                        type="text"
-                        placeholder="Dancer B"
-                        v-model="
-                          modelValue.top8[idx].dancerB.name
-                        "
-                      />
-                      <input
-                        type="checkbox"
-                        v-model="
-                          modelValue.top8[idx].dancerB
-                            .isLoser
-                        "
-                      />
-                    </div>
-                  </div>
-                  <div
-                    v-else
-                    class="text-red-900"
-                  >
-                    No battle data
-                  </div>
-                </div>
-              </div>
-            </div>
+          <!-- Column 3: 17-20 -->
+          <div class="col-[3] row-[1]">
+            <AdminBracketBattle
+              v-model="modelValue.top8[0]"
+            />
+          </div>
+          <div class="col-[3] row-[3]">
+            <AdminBracketBattle
+              v-model="modelValue.top8[1]"
+            />
+          </div>
+          <div class="col-[3] row-[5]">
+            <AdminBracketBattle
+              v-model="modelValue.top8[2]"
+            />
+          </div>
+          <div class="col-[3] row-[7]">
+            <AdminBracketBattle
+              v-model="modelValue.top8[3]"
+            />
+          </div>
 
-            <div>
-              <h3 class="font-semibold mb-2">Top 4</h3>
-              <div
-                class="grid grid-cols-1 grid-rows-2 grid-flow-col gap-2"
-              >
-                <div
-                  v-for="idx in Array(TOP_4_LENGTH).keys()"
-                  :key="idx"
-                  class="mb-2"
-                >
-                  <h4 class="font-semibold">
-                    Battle {{ idx + 1 }}
-                  </h4>
-                  <div
-                    v-if="modelValue.top4[idx]"
-                    class="flex flex-col gap-1"
-                  >
-                    <div class="flex gap-1">
-                      <input
-                        class="border-2 border-gray-300 px-2 rounded"
-                        type="text"
-                        placeholder="Dancer A"
-                        v-model="
-                          modelValue.top4[idx].dancerA.name
-                        "
-                      />
-                      <input
-                        type="checkbox"
-                        v-model="
-                          modelValue.top4[idx].dancerA
-                            .isLoser
-                        "
-                      />
-                    </div>
-                    <div class="flex gap-1">
-                      <input
-                        class="border-2 border-gray-300 px-2 rounded"
-                        type="text"
-                        placeholder="Dancer B"
-                        v-model="
-                          modelValue.top4[idx].dancerB.name
-                        "
-                      />
-                      <input
-                        type="checkbox"
-                        v-model="
-                          modelValue.top4[idx].dancerB
-                            .isLoser
-                        "
-                      />
-                    </div>
-                  </div>
-                  <div
-                    v-else
-                    class="text-red-900"
-                  >
-                    No battle data
-                  </div>
-                </div>
-              </div>
-            </div>
+          <!-- Column 4: 21-23 -->
+          <div class="col-[4] row-[2]">
+            <AdminBracketBattle
+              v-model="modelValue.top4[0]"
+            />
+          </div>
+          <div class="col-[4] row-[6]">
+            <AdminBracketBattle
+              v-model="modelValue.top4[1]"
+            />
+          </div>
 
-            <div>
-              <h3 class="font-semibold mb-2">Final</h3>
-              <div class="mb-2">
-                <h4 class="font-semibold">Battle</h4>
-                <div class="flex flex-col gap-1">
-                  <div class="flex gap-1">
-                    <input
-                      class="border-2 border-gray-300 px-2 rounded"
-                      type="text"
-                      placeholder="Dancer A"
-                      v-model="
-                        modelValue.final.dancerA.name
-                      "
-                    />
-                    <input
-                      type="checkbox"
-                      v-model="
-                        modelValue.final.dancerA.isLoser
-                      "
-                    />
-                  </div>
-                  <div class="flex gap-1">
-                    <input
-                      class="border-2 border-gray-300 px-2 rounded"
-                      type="text"
-                      placeholder="Dancer B"
-                      v-model="
-                        modelValue.final.dancerB.name
-                      "
-                    />
-                    <input
-                      type="checkbox"
-                      v-model="
-                        modelValue.final.dancerB.isLoser
-                      "
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
+          <!-- Column 5: 24 -->
+          <div class="col-[5] row-[4]">
+            <AdminBracketBattle
+              v-model="modelValue.final"
+            />
           </div>
         </div>
       </UiSection>
