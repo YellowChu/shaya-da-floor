@@ -32,5 +32,6 @@ onUnmounted(() => {
     v-else-if="
       stateRef.currentView === CurrentViewEnum.Battle
     "
+    :state="stateRef"
   />
 </template>

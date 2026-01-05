@@ -41,7 +41,6 @@ const borderColorClass = {
 
 <style scoped>
 .card {
-  /* border: 4px solid #143fff; */
   background: radial-gradient(
     circle 260px at 35% 40%,
     #f6f7fe 0%,

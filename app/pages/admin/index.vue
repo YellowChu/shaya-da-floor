@@ -23,7 +23,7 @@ const updateStateFromAdmin = () => {
 </script>
 
 <template>
-  <div class="flex flex-col gap-8 p-10">
+  <div class="flex flex-col gap-8 p-10 mb-32">
     <AdminView
       v-model="currentView"
       @save="updateStateFromAdmin"

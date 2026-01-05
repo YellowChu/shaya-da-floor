@@ -3,31 +3,30 @@
     <div class="grid grid-cols-2 grid-rows-2 w-full h-full">
       <div class="justify-self-start self-start">
         <NuxtImg
-          src="/corner-top-left.png"
-          class="rounded"
-          width="100"
+          src="/images/ornament.png"
+          class="transform scale-x-[-1]"
+          width="200"
         />
       </div>
       <div class="justify-self-end self-start">
         <NuxtImg
-          src="/corner-top-right.png"
-          class="rounded"
-          width="100"
+          src="/images/ornament.png"
+          width="200"
         />
       </div>
 
       <div class="justify-self-start self-end">
         <NuxtImg
-          src="/corner-bottom-left.png"
-          class="rounded"
-          width="100"
+          src="/images/ornament.png"
+          class="transform scale-x-[-1] scale-y-[-1]"
+          width="200"
         />
       </div>
       <div class="justify-self-end self-end">
         <NuxtImg
-          src="/corner-bottom-right.png"
-          class="rounded"
-          width="100"
+          src="/images/ornament.png"
+          class="transform scale-y-[-1]"
+          width="200"
         />
       </div>
     </div>

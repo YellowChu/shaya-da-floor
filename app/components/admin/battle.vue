@@ -79,6 +79,108 @@ const removeDancer = (idx: number) => {
     emit("save");
   }
 };
+
+const isDragging = ref(false);
+
+function onWindowDragEnter(e: DragEvent) {
+  isDragging.value = true;
+}
+
+function onWindowDragLeave(e: DragEvent) {
+  if (e.clientX === 0 && e.clientY === 0) {
+    isDragging.value = false;
+  }
+}
+
+function onWindowDrop() {
+  isDragging.value = false;
+}
+
+onMounted(() => {
+  window.addEventListener("dragenter", onWindowDragEnter);
+  window.addEventListener("dragleave", onWindowDragLeave);
+  window.addEventListener("drop", onWindowDrop);
+});
+
+onBeforeUnmount(() => {
+  window.removeEventListener(
+    "dragenter",
+    onWindowDragEnter
+  );
+  window.removeEventListener(
+    "dragleave",
+    onWindowDragLeave
+  );
+  window.removeEventListener("drop", onWindowDrop);
+});
+
+const startDrag = (event: DragEvent, idx: number) => {
+  event.dataTransfer?.setData("dancerIdx", idx.toString());
+};
+
+const onDropDancerA = (event: DragEvent) => {
+  const dancerIdx =
+    event.dataTransfer?.getData("dancerIdx");
+  if (!dancerIdx) return;
+
+  const fromIdx = parseInt(dancerIdx, 10);
+  if (!battleDancers.value[fromIdx]) return;
+
+  const updatedBattle = { ...battle.value };
+  updatedBattle.dancerA.name =
+    battleDancers.value[fromIdx].name;
+  updatedBattle.dancerA.image =
+    battleDancers.value[fromIdx].image;
+  emit("update:battle", updatedBattle);
+};
+
+const onDropDancerB = (event: DragEvent) => {
+  const dancerIdx =
+    event.dataTransfer?.getData("dancerIdx");
+  if (!dancerIdx) return;
+
+  const fromIdx = parseInt(dancerIdx, 10);
+  if (!battleDancers.value[fromIdx]) return;
+
+  const updatedBattle = { ...battle.value };
+  updatedBattle.dancerB.name =
+    battleDancers.value[fromIdx].name;
+  updatedBattle.dancerB.image =
+    battleDancers.value[fromIdx].image;
+  emit("update:battle", updatedBattle);
+};
+
+const onDropDancerX = (event: DragEvent) => {
+  const dancerIdx =
+    event.dataTransfer?.getData("dancerIdx");
+  if (!dancerIdx) return;
+
+  const fromIdx = parseInt(dancerIdx, 10);
+  if (!battleDancers.value[fromIdx]) return;
+
+  const updatedBattle = { ...battle.value };
+  updatedBattle.dancerX.name =
+    battleDancers.value[fromIdx].name;
+  updatedBattle.dancerX.image =
+    battleDancers.value[fromIdx].image;
+  emit("update:battle", updatedBattle);
+};
+
+const onDropDancerY = (event: DragEvent) => {
+  const dancerIdx =
+    event.dataTransfer?.getData("dancerIdx");
+  if (!dancerIdx) return;
+
+  const fromIdx = parseInt(dancerIdx, 10);
+  if (!battleDancers.value[fromIdx]) return;
+
+  const updatedBattle = { ...battle.value };
+  updatedBattle.dancerY.name =
+    battleDancers.value[fromIdx].name;
+  updatedBattle.dancerY.image =
+    battleDancers.value[fromIdx].image;
+  emit("update:battle", updatedBattle);
+};
 </script>
 
 <template>
@@ -181,6 +283,21 @@ const removeDancer = (idx: number) => {
                       ✕
                     </button>
                   </div>
+
+                  <div class="flex mt-2 w-full">
+                    <button
+                      class="px-2 py-1 w-full text-xl bg-green-500 text-white rounded hover:bg-green-600 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors duration-200 cursor-grabbing"
+                      :disabled="editingDancer.idx !== -1"
+                      :draggable="
+                        editingDancer.idx === -1
+                          ? 'true'
+                          : 'false'
+                      "
+                      @dragstart="startDrag($event, idx)"
+                    >
+                      ⤧
+                    </button>
+                  </div>
                 </div>
 
                 <!-- Edit mode -->
@@ -224,5 +341,171 @@ const removeDancer = (idx: number) => {
         </div>
       </div>
     </UiSection>
+
+    <UiSection class="mt-2 !bg-white">
+      <div class="flex gap-4">
+        <div>
+          <div class="flex flex-col gap-2">
+            <div class="flex gap-2">
+              <UiSection
+                @drop="onDropDancerA"
+                @dragenter.prevent
+                @dragover.prevent
+                class="flex flex-col items-center transition-transform duration-200"
+                :class="
+                  isDragging && ' scale-105 !bg-slate-200'
+                "
+              >
+                <NuxtImg
+                  v-if="battle.dancerA.image"
+                  :src="`/dancers/${battle.dancerA.image}`"
+                  @error="`/dancers/empty.jpeg`"
+                  height="160"
+                  width="100"
+                  class="object-cover rounded-md"
+                />
+                <NuxtImg
+                  v-else
+                  :src="`/dancers/empty.jpeg`"
+                  height="160"
+                  width="100"
+                  class="object-cover rounded-md"
+                />
+
+                <div class="text-center font-bold">
+                  {{ battle.dancerA.name || "-" }}
+                </div>
+              </UiSection>
+              <UiSection
+                @drop="onDropDancerB"
+                @dragenter.prevent
+                @dragover.prevent
+                class="flex flex-col items-center transition-transform duration-200"
+                :class="
+                  isDragging && ' scale-105 !bg-slate-200'
+                "
+              >
+                <NuxtImg
+                  v-if="battle.dancerB.image"
+                  :src="`/dancers/${battle.dancerB.image}`"
+                  @error="`/dancers/empty.jpeg`"
+                  height="160"
+                  width="100"
+                  class="object-cover rounded-md"
+                />
+                <NuxtImg
+                  v-else
+                  :src="`/dancers/empty.jpeg`"
+                  height="160"
+                  width="100"
+                  class="object-cover rounded-md"
+                />
+
+                <div class="text-center font-bold">
+                  {{ battle.dancerB.name || "-" }}
+                </div>
+              </UiSection>
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="flex flex-col justify-center items-center"
+        >
+          <div class="flex items-center gap-2">
+            <input
+              type="radio"
+              :value="false"
+              v-model="battle.useXY"
+            />
+            ↔
+            <input
+              type="radio"
+              :value="true"
+              v-model="battle.useXY"
+            />
+          </div>
+          <input
+            type="text"
+            placeholder="Title"
+            class="px-3 py-2 border border-blue-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            v-model="battle.title"
+          />
+        </div>
+
+        <div>
+          <div class="flex flex-col gap-2">
+            <div class="flex gap-2">
+              <UiSection
+                @drop="onDropDancerX"
+                @dragenter.prevent
+                @dragover.prevent
+                class="flex flex-col items-center transition-transform duration-200"
+                :class="
+                  isDragging && ' scale-105 !bg-slate-200'
+                "
+              >
+                <NuxtImg
+                  v-if="battle.dancerX.image"
+                  :src="`/dancers/${battle.dancerX.image}`"
+                  @error="`/dancers/empty.jpeg`"
+                  height="160"
+                  width="100"
+                  class="object-cover rounded-md"
+                />
+                <NuxtImg
+                  v-else
+                  :src="`/dancers/empty.jpeg`"
+                  height="160"
+                  width="100"
+                  class="object-cover rounded-md"
+                />
+
+                <div class="text-center font-bold">
+                  {{ battle.dancerX.name || "-" }}
+                </div>
+              </UiSection>
+              <UiSection
+                @drop="onDropDancerY"
+                @dragenter.prevent
+                @dragover.prevent
+                class="flex flex-col items-center transition-transform duration-200"
+                :class="
+                  isDragging && ' scale-105 !bg-slate-200'
+                "
+              >
+                <NuxtImg
+                  v-if="battle.dancerY.image"
+                  :src="`/dancers/${battle.dancerY.image}`"
+                  @error="`/dancers/empty.jpeg`"
+                  height="160"
+                  width="100"
+                  class="object-cover rounded-md"
+                />
+                <NuxtImg
+                  v-else
+                  :src="`/dancers/empty.jpeg`"
+                  height="160"
+                  width="100"
+                  class="object-cover rounded-md"
+                />
+
+                <div class="text-center font-bold">
+                  {{ battle.dancerY.name || "-" }}
+                </div>
+              </UiSection>
+            </div>
+          </div>
+        </div>
+      </div>
+    </UiSection>
+
+    <UiButton
+      class="mt-4 px-2 py-1 text-xs transition-colors duration-200"
+      @click="$emit('save')"
+      variant="success"
+    >
+      Save
+    </UiButton>
   </UiSection>
 </template>
