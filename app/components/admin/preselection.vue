@@ -3,7 +3,7 @@ import Papa from "papaparse";
 
 const props = withDefaults(
   defineProps<{
-    modelValue: PreselectionDancer[];
+    modelValue: Dancer[];
   }>(),
   {
     modelValue: () => [],
@@ -11,10 +11,7 @@ const props = withDefaults(
 );
 
 const emit = defineEmits<{
-  (
-    e: "update:modelValue",
-    value: PreselectionDancer[]
-  ): void;
+  (e: "update:modelValue", value: Dancer[]): void;
   (e: "save"): void;
 }>();
 
@@ -73,7 +70,7 @@ const toggleArchive = (id: number) => {
   if (index !== -1 && dancers[index]) {
     dancers[index] = {
       ...dancers[index],
-      archived: !dancers[index].archived,
+      donePreselection: !dancers[index].donePreselection,
     };
     emit("update:modelValue", dancers);
   }
@@ -96,10 +93,13 @@ const addNewItem = () => {
         )
       : 0;
 
-  const newDancer: PreselectionDancer = {
+  const newDancer: Dancer = {
     id: largestId + 1,
     name: name,
-    archived: false,
+    donePreselection: false,
+    isInBattle: false,
+    isLoser: false,
+    image: "",
   };
 
   const dancers = [...props.modelValue, newDancer];
@@ -119,7 +119,7 @@ const handleNewItemKeydown = (event: KeyboardEvent) => {
 const editingId = ref<number | null>(null);
 const editingName = ref<string>("");
 
-const startEdit = (dancer: PreselectionDancer) => {
+const startEdit = (dancer: Dancer) => {
   editingId.value = dancer.id;
   editingName.value = dancer.name;
 };
@@ -163,7 +163,7 @@ const parseCsv = (e: Event) => {
     skipEmptyLines: true,
     complete: (results) => {
       const rows = results.data as string[][];
-      const dancers: PreselectionDancer[] = [];
+      const dancers: Dancer[] = [];
 
       if (rows.length === 0) return;
 
@@ -175,7 +175,10 @@ const parseCsv = (e: Event) => {
         dancers.push({
           id,
           name,
-          archived: false,
+          donePreselection: false,
+          isInBattle: false,
+          isLoser: false,
+          image: "",
         });
       }
 
@@ -186,182 +189,292 @@ const parseCsv = (e: Event) => {
   // Clear the file input after processing
   (e.target as HTMLInputElement).value = "";
 };
+
+// Preselection passed mode
+const passedDancersMode = ref(false);
+const search = ref("");
+
+const toggleIsInBattle = (id: number) => {
+  const dancers = [...props.modelValue];
+  const index = dancers.findIndex((d) => d.id === id);
+  if (index !== -1 && dancers[index]) {
+    dancers[index] = {
+      ...dancers[index],
+      isInBattle: !dancers[index].isInBattle,
+    };
+    emit("update:modelValue", dancers);
+  }
+
+  emit("update:modelValue", dancers);
+};
 </script>
 
 <template>
   <UiSection>
     <h2 class="text-lg font-bold">Preselection</h2>
 
-    <UiSection class="flex flex-col gap-4 mt-2 !bg-white">
-      <input
-        type="file"
-        accept=".csv,text/csv"
-        @change="parseCsv"
-      />
-      <div class="flex w-full gap-2">
+    <template v-if="!passedDancersMode">
+      <UiSection class="flex flex-col gap-4 mt-2 !bg-white">
         <input
-          v-model="newItemName"
-          type="text"
-          class="flex-1 px-3 py-2 border border-blue-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-          placeholder="Enter dancer name"
-          @keydown="handleNewItemKeydown"
+          type="file"
+          accept=".csv,text/csv"
+          @change="parseCsv"
         />
+        <div class="flex w-full gap-2">
+          <input
+            v-model="newItemName"
+            type="text"
+            class="flex-1 px-3 py-2 border border-blue-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            placeholder="Enter dancer name"
+            @keydown="handleNewItemKeydown"
+          />
 
-        <UiButton
-          @click="addNewItem"
-          :disabled="!newItemName.trim()"
-        >
-          Add
-        </UiButton>
-      </div>
-    </UiSection>
+          <UiButton
+            @click="addNewItem"
+            :disabled="!newItemName.trim()"
+          >
+            Add
+          </UiButton>
+        </div>
+      </UiSection>
 
-    <UiSection
-      v-if="modelValue.length"
-      class="mt-2 max-h-[24rem] overflow-y-scroll !bg-white"
-    >
-      <TransitionGroup
-        name="dancer-list"
-        tag="div"
-        class="flex flex-col gap-2"
+      <UiSection
+        v-if="modelValue.length"
+        class="mt-2 max-h-[24rem] overflow-y-scroll !bg-white"
       >
-        <div
-          v-for="(dancer, index) in modelValue"
-          :key="dancer.id"
-          class="flex items-center gap-2 p-2 bg-gray-50 rounded transition-all duration-300 ease-in-out hover:bg-gray-100"
+        <TransitionGroup
+          name="dancer-list"
+          tag="div"
+          class="flex flex-col gap-2"
         >
-          <div class="flex-1 flex items-center gap-2">
-            <span
-              class="text-sm font-medium text-gray-600 min-w-8"
-              >{{ dancer.id }}</span
-            >
-
-            <!-- Display mode -->
-            <span
-              v-if="editingId !== dancer.id"
-              class="flex-1 cursor-pointer hover:text-blue-600 transition-colors"
-              @click="toggleArchive(dancer.id)"
-              :title="'Click to edit ' + dancer.name"
-            >
-              <del
-                v-if="dancer.archived"
-                class="text-gray-600"
+          <div
+            v-for="(dancer, index) in modelValue"
+            :key="dancer.id"
+            class="flex items-center gap-2 p-2 bg-gray-50 rounded transition-all duration-300 ease-in-out hover:bg-gray-100"
+          >
+            <div class="flex-1 flex items-center gap-2">
+              <span
+                class="text-sm font-medium text-gray-600 min-w-8"
+                >{{ dancer.id }}</span
               >
-                {{ dancer.name }}
-              </del>
-              <span v-else>
-                {{ dancer.name }}
+
+              <!-- Display mode -->
+              <span
+                v-if="editingId !== dancer.id"
+                class="flex-1 cursor-pointer hover:text-blue-600 transition-colors"
+                @click="toggleArchive(dancer.id)"
+                :title="'Click to edit ' + dancer.name"
+              >
+                <del
+                  v-if="dancer.donePreselection"
+                  class="text-gray-600"
+                >
+                  {{ dancer.name }}
+                </del>
+                <span v-else>
+                  {{ dancer.name }}
+                </span>
               </span>
-            </span>
 
-            <!-- Edit mode -->
-            <div
-              v-else
-              class="flex-1 flex items-center gap-2"
-            >
-              <input
-                v-model="editingName"
-                type="text"
-                class="flex-1 px-2 py-1 text-sm border border-blue-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                @keydown="handleKeydown"
-                @blur="saveEdit"
-                ref="editInput"
-                placeholder="Enter dancer name"
-              />
-              <button
-                class="px-2 py-1 text-sm bg-green-500 text-white rounded hover:bg-green-600 transition-colors duration-200"
-                @click="saveEdit"
-                title="Save"
+              <!-- Edit mode -->
+              <div
+                v-else
+                class="flex-1 flex items-center gap-2"
               >
-                ✓
+                <input
+                  v-model="editingName"
+                  type="text"
+                  class="flex-1 px-2 py-1 text-sm border border-blue-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  @keydown="handleKeydown"
+                  @blur="saveEdit"
+                  ref="editInput"
+                  placeholder="Enter dancer name"
+                />
+                <button
+                  class="px-2 py-1 text-sm bg-green-500 text-white rounded hover:bg-green-600 transition-colors duration-200"
+                  @click="saveEdit"
+                  title="Save"
+                >
+                  ✓
+                </button>
+                <button
+                  class="px-2 py-1 text-sm bg-gray-500 text-white rounded hover:bg-gray-600 transition-colors duration-200"
+                  @click="cancelEdit"
+                  title="Cancel"
+                >
+                  ✕
+                </button>
+              </div>
+            </div>
+
+            <div class="flex gap-1">
+              <!-- Edit button (only show when not in edit mode) -->
+              <button
+                v-if="editingId !== dancer.id"
+                class="px-2 py-1 text-sm bg-yellow-500 text-white rounded hover:bg-yellow-600 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors duration-200"
+                @click="startEdit(dancer)"
+                :disabled="dancer.donePreselection"
+                title="Edit Name"
+              >
+                ✏
+              </button>
+
+              <button
+                class="px-2 py-1 text-sm bg-blue-500 text-white rounded hover:bg-blue-600 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors duration-200"
+                @click="moveUp(index)"
+                :disabled="
+                  dancer.donePreselection ||
+                  editingId === dancer.id
+                "
+                title="Move Up"
+              >
+                ↑
               </button>
               <button
-                class="px-2 py-1 text-sm bg-gray-500 text-white rounded hover:bg-gray-600 transition-colors duration-200"
-                @click="cancelEdit"
-                title="Cancel"
+                class="px-2 py-1 text-sm bg-blue-500 text-white rounded hover:bg-blue-600 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors duration-200"
+                @click="moveDown(index)"
+                :disabled="
+                  dancer.donePreselection ||
+                  editingId === dancer.id
+                "
+                title="Move Down"
               >
-                ✕
+                ↓
+              </button>
+              <button
+                class="px-2 py-1 text-sm bg-green-500 text-white rounded hover:bg-green-600 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors duration-200"
+                @click="moveToStart(index)"
+                :disabled="
+                  dancer.donePreselection ||
+                  editingId === dancer.id
+                "
+                title="Move to Start"
+              >
+                ⇈
+              </button>
+              <button
+                class="px-2 py-1 text-sm bg-green-500 text-white rounded hover:bg-green-600 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors duration-200"
+                @click="moveToEnd(index)"
+                :disabled="
+                  dancer.donePreselection ||
+                  editingId === dancer.id
+                "
+                title="Move to End"
+              >
+                ⇊
               </button>
             </div>
           </div>
+        </TransitionGroup>
+      </UiSection>
+    </template>
 
-          <div class="flex gap-1">
-            <!-- Edit button (only show when not in edit mode) -->
-            <button
-              v-if="editingId !== dancer.id"
-              class="px-2 py-1 text-sm bg-yellow-500 text-white rounded hover:bg-yellow-600 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors duration-200"
-              @click="startEdit(dancer)"
-              :disabled="dancer.archived"
-              title="Edit Name"
-            >
-              ✏
-            </button>
+    <template v-else>
+      <UiSection
+        v-if="modelValue.length"
+        class="!bg-white"
+      >
+        <div class="flex flex-col gap-2">
+          <input
+            v-model="search"
+            type="text"
+            class="flex-1 px-3 py-2 border border-blue-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            placeholder="search"
+          />
 
-            <button
-              class="px-2 py-1 text-sm bg-blue-500 text-white rounded hover:bg-blue-600 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors duration-200"
-              @click="moveUp(index)"
-              :disabled="
-                dancer.archived || editingId === dancer.id
-              "
-              title="Move Up"
+          <div class="flex gap-2 mt-2">
+            <div
+              class="flex-1 max-h-[24rem] overflow-y-scroll !bg-white"
             >
-              ↑
-            </button>
-            <button
-              class="px-2 py-1 text-sm bg-blue-500 text-white rounded hover:bg-blue-600 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors duration-200"
-              @click="moveDown(index)"
-              :disabled="
-                dancer.archived || editingId === dancer.id
-              "
-              title="Move Down"
+              <div
+                v-for="dancer in modelValue"
+                :key="dancer.id"
+              >
+                <div
+                  v-if="
+                    !search ||
+                    dancer.name
+                      .toLocaleLowerCase()
+                      .includes(
+                        search.toLocaleLowerCase()
+                      ) ||
+                    dancer.id.toString().includes(search)
+                  "
+                  class="flex items-center gap-2 p-2 mb-2 rounded bg-gray-50 hover:bg-gray-100"
+                  :class="
+                    dancer.isInBattle &&
+                    'bg-green-200 hover:bg-green-100'
+                  "
+                  @click="toggleIsInBattle(dancer.id)"
+                >
+                  <span
+                    class="text-sm font-medium text-gray-600 min-w-8"
+                  >
+                    {{ dancer.id }}
+                  </span>
+
+                  <span
+                    class="flex-1 cursor-pointer hover:text-blue-600 transition-colors"
+                  >
+                    <span>
+                      {{ dancer.name }}
+                    </span>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div
+              class="max-h-[24rem] overflow-y-scroll !bg-white"
             >
-              ↓
-            </button>
-            <button
-              class="px-2 py-1 text-sm bg-green-500 text-white rounded hover:bg-green-600 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors duration-200"
-              @click="moveToStart(index)"
-              :disabled="
-                dancer.archived || editingId === dancer.id
-              "
-              title="Move to Start"
-            >
-              ⇈
-            </button>
-            <button
-              class="px-2 py-1 text-sm bg-green-500 text-white rounded hover:bg-green-600 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors duration-200"
-              @click="moveToEnd(index)"
-              :disabled="
-                dancer.archived || editingId === dancer.id
-              "
-              title="Move to End"
-            >
-              ⇊
-            </button>
-            <!-- <button
-              class="px-2 py-1 text-xs text-white rounded disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors duration-200"
-              :class="
-                dancer.archived
-                  ? 'bg-green-500 hover:bg-green-600'
-                  : 'bg-red-500 hover:bg-red-600'
-              "
-              @click="toggleArchive(dancer.id)"
-              :disabled="editingId === dancer.id"
-              title="Toggle Archive"
-            >
-              {{ dancer.archived ? "✓" : "✕" }}
-            </button> -->
+              <div
+                v-for="(dancer, index) in modelValue.filter(
+                  (dancer) => dancer.isInBattle
+                )"
+                :key="dancer.id"
+              >
+                <div
+                  class="flex items-center gap-2 p-2 mb-2 bg-gray-50 rounded transition-all duration-300 ease-in-out hover:bg-gray-100"
+                >
+                  <span
+                    class="text-sm font-medium text-gray-600 min-w-8"
+                  >
+                    {{ index + 1 }}
+                  </span>
+
+                  <span
+                    class="flex-1 cursor-pointer hover:text-blue-600 transition-colors"
+                  >
+                    <span>
+                      {{ dancer.name }}
+                    </span>
+                  </span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      </TransitionGroup>
-    </UiSection>
+      </UiSection>
+    </template>
 
-    <UiButton
-      class="mt-4 px-2 py-1 text-xs transition-colors duration-200"
-      @click="$emit('save')"
-      variant="success"
-    >
-      Save
-    </UiButton>
+    <div class="flex justify-end gap-2">
+      <UiButton
+        class="mt-4 px-2 py-1 text-xs transition-colors duration-200"
+        @click="passedDancersMode = !passedDancersMode"
+      >
+        {{
+          passedDancersMode
+            ? "Back to Preselection"
+            : "Pick Passing Dancers"
+        }}
+      </UiButton>
+      <UiButton
+        class="mt-4 px-2 py-1 text-xs transition-colors duration-200"
+        @click="$emit('save')"
+        variant="success"
+      >
+        Save
+      </UiButton>
+    </div>
   </UiSection>
 </template>
 

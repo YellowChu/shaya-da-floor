@@ -4,178 +4,97 @@ export enum CurrentViewEnum {
   Battle = "battle",
 }
 
-export interface PreselectionDancer {
+export interface Dancer {
   id: number;
   name: string;
-  archived: boolean;
-}
-
-export interface BracketDancer {
-  name: string;
+  donePreselection: boolean;
+  isInBattle: boolean;
   isLoser: boolean;
-}
-
-export interface BracketBattle {
-  dancerA: BracketDancer;
-  dancerB: BracketDancer;
-}
-
-export interface Bracket {
-  hasTwoTop16: boolean;
-  top16A: BracketBattle[];
-  top16B: BracketBattle[];
-  top8: BracketBattle[];
-  top4: BracketBattle[];
-  final: BracketBattle;
-}
-
-export interface BattleDancer {
-  name: string;
   image: string;
 }
 
 export interface Battle {
-  dancerA: BattleDancer;
-  dancerB: BattleDancer;
-  dancerX: BattleDancer;
-  dancerY: BattleDancer;
-  title: string;
-  useXY: boolean;
-  useImages: boolean;
+  title?: string;
+  dancerAId?: number;
+  dancerBId?: number;
+}
+
+export interface Bracket {
+  hasTwoTop16: boolean;
+  // Pre-16
+  pre16Battle1: Battle;
+  pre16Battle2: Battle;
+  pre16Battle3: Battle;
+  pre16Battle4: Battle;
+  pre16Battle5: Battle;
+  pre16Battle6: Battle;
+  pre16Battle7: Battle;
+  pre16Battle8: Battle;
+  // Top 16
+  top16Battle1: Battle;
+  top16Battle2: Battle;
+  top16Battle3: Battle;
+  top16Battle4: Battle;
+  top16Battle5: Battle;
+  top16Battle6: Battle;
+  top16Battle7: Battle;
+  top16Battle8: Battle;
+  // Top 8
+  top8Battle1: Battle;
+  top8Battle2: Battle;
+  top8Battle3: Battle;
+  top8Battle4: Battle;
+  // Semi Finals & Final
+  semiFinal1: Battle;
+  semiFinal2: Battle;
+  final: Battle;
 }
 
 export interface IState {
   currentView: CurrentViewEnum;
-  preselectionDancers: PreselectionDancer[];
+  dancers: Dancer[];
   bracket: Bracket;
   battle: Battle;
-  battleDancers: BattleDancer[];
 }
 
 const defaultState: IState = {
   currentView: CurrentViewEnum.Preselection,
-  preselectionDancers: [],
+  dancers: [],
   bracket: {
-    hasTwoTop16: false,
-    top16A: [
-      {
-        dancerA: { name: "", isLoser: false },
-        dancerB: { name: "", isLoser: false },
-      },
-      {
-        dancerA: { name: "", isLoser: false },
-        dancerB: { name: "", isLoser: false },
-      },
-      {
-        dancerA: { name: "", isLoser: false },
-        dancerB: { name: "", isLoser: false },
-      },
-      {
-        dancerA: { name: "", isLoser: false },
-        dancerB: { name: "", isLoser: false },
-      },
-      {
-        dancerA: { name: "", isLoser: false },
-        dancerB: { name: "", isLoser: false },
-      },
-      {
-        dancerA: { name: "", isLoser: false },
-        dancerB: { name: "", isLoser: false },
-      },
-      {
-        dancerA: { name: "", isLoser: false },
-        dancerB: { name: "", isLoser: false },
-      },
-      {
-        dancerA: { name: "", isLoser: false },
-        dancerB: { name: "", isLoser: false },
-      },
-    ],
-    top16B: [
-      {
-        dancerA: { name: "Guest A", isLoser: false },
-        dancerB: { name: "", isLoser: false },
-      },
-      {
-        dancerA: { name: "Guest B", isLoser: false },
-        dancerB: { name: "", isLoser: false },
-      },
-      {
-        dancerA: { name: "Guest C", isLoser: false },
-        dancerB: { name: "", isLoser: false },
-      },
-      {
-        dancerA: { name: "Guest D", isLoser: false },
-        dancerB: { name: "", isLoser: false },
-      },
-      {
-        dancerA: { name: "Guest E", isLoser: false },
-        dancerB: { name: "", isLoser: false },
-      },
-      {
-        dancerA: { name: "Guest F", isLoser: false },
-        dancerB: { name: "", isLoser: false },
-      },
-      {
-        dancerA: { name: "Guest G", isLoser: false },
-        dancerB: { name: "", isLoser: false },
-      },
-      {
-        dancerA: { name: "Guest H", isLoser: false },
-        dancerB: { name: "", isLoser: false },
-      },
-    ],
-    top8: [
-      {
-        dancerA: { name: "", isLoser: false },
-        dancerB: { name: "", isLoser: false },
-      },
-      {
-        dancerA: { name: "", isLoser: false },
-        dancerB: { name: "", isLoser: false },
-      },
-      {
-        dancerA: { name: "", isLoser: false },
-        dancerB: { name: "", isLoser: false },
-      },
-      {
-        dancerA: { name: "", isLoser: false },
-        dancerB: { name: "", isLoser: false },
-      },
-    ],
-    top4: [
-      {
-        dancerA: { name: "", isLoser: false },
-        dancerB: { name: "", isLoser: false },
-      },
-      {
-        dancerA: { name: "", isLoser: false },
-        dancerB: { name: "", isLoser: false },
-      },
-    ],
-    final: {
-      dancerA: { name: "", isLoser: false },
-      dancerB: { name: "", isLoser: false },
-    },
+    hasTwoTop16: true,
+    pre16Battle1: { title: "" },
+    pre16Battle2: { title: "" },
+    pre16Battle3: { title: "" },
+    pre16Battle4: { title: "" },
+    pre16Battle5: { title: "" },
+    pre16Battle6: { title: "" },
+    pre16Battle7: { title: "" },
+    pre16Battle8: { title: "" },
+    top16Battle1: { title: "Top 16" },
+    top16Battle2: { title: "Top 16" },
+    top16Battle3: { title: "Top 16" },
+    top16Battle4: { title: "Top 16" },
+    top16Battle5: { title: "Top 16" },
+    top16Battle6: { title: "Top 16" },
+    top16Battle7: { title: "Top 16" },
+    top16Battle8: { title: "Top 16" },
+    top8Battle1: { title: "Top 8" },
+    top8Battle2: { title: "Top 8" },
+    top8Battle3: { title: "Top 8" },
+    top8Battle4: { title: "Top 8" },
+    semiFinal1: { title: "Semi Final" },
+    semiFinal2: { title: "Semi Final" },
+    final: { title: "Final" },
   },
-  battle: {
-    dancerA: { name: "", image: "" },
-    dancerB: { name: "", image: "" },
-    dancerX: { name: "", image: "" },
-    dancerY: { name: "", image: "" },
-    title: "",
-    useXY: false,
-    useImages: false,
-  },
-  battleDancers: [],
+  battle: { title: "" },
 };
 
 export const useLocalStorageState  = () => {
   const localStorageState = localStorage.getItem("appState");
-  // const state = defaultState;
-  const state = localStorageState
-    ? (JSON.parse(localStorageState) as IState)
-    : defaultState;
+  const state = defaultState;
+  // const state = localStorageState
+  //   ? (JSON.parse(localStorageState) as IState)
+  //   : defaultState;
 
   const updateState = (state: IState) => {
     console.log(new Blob([JSON.stringify(state)]).size)
