@@ -10,6 +10,9 @@ const modelValue = defineModel<BracketBattle>({});
     <div class="flex gap-1">
       <input
         class="border-2 border-gray-300 px-2 rounded"
+        :class="
+          modelValue.dancerA.isLoser && 'line-through'
+        "
         type="text"
         placeholder="Dancer A"
         v-model="modelValue.dancerA.name"
@@ -22,6 +25,9 @@ const modelValue = defineModel<BracketBattle>({});
     <div class="flex gap-1">
       <input
         class="border-2 border-gray-300 px-2 rounded"
+        :class="
+          modelValue.dancerB.isLoser && 'line-through'
+        "
         type="text"
         placeholder="Dancer B"
         v-model="modelValue.dancerB.name"
