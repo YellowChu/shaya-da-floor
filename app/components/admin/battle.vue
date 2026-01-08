@@ -16,6 +16,14 @@ const emit = defineEmits<{
   (e: "save"): void;
 }>();
 
+watch(
+  () => battle,
+  () => {
+    emit("save");
+  },
+  { deep: true }
+);
+
 const search = ref("");
 
 const newDancer = ref<BattleDancer>({
@@ -448,7 +456,7 @@ const onDropDancerY = (event: DragEvent) => {
             <div class="flex gap-2">
               <UiSection
                 @drop="
-                  battle.useXY && onDropDancerX($event)
+                  !battle.useXY && onDropDancerX($event)
                 "
                 @dragenter.prevent
                 @dragover.prevent
@@ -482,7 +490,7 @@ const onDropDancerY = (event: DragEvent) => {
               </UiSection>
               <UiSection
                 @drop="
-                  battle.useXY && onDropDancerY($event)
+                  !battle.useXY && onDropDancerY($event)
                 "
                 @dragenter.prevent
                 @dragover.prevent
