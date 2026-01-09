@@ -1,37 +1,33 @@
 <script lang="ts" setup>
-const { state } = useLocalStorageState();
-const stateRef = ref<IState>(state);
-
-onMounted(() => {
-  window.addEventListener("storage", (event) => {
-    if (event.key === "appState" && event.newValue) {
-      stateRef.value = JSON.parse(event.newValue) as IState;
-    }
-  });
-});
-
-onUnmounted(() => {
-  window.removeEventListener("storage", () => {});
-});
+const props = defineProps<{
+  state: IState;
+}>();
 </script>
 
 <template>
-  <ViewPreselection
+  <ViewPoster
     v-if="
-      stateRef.currentView === CurrentViewEnum.Preselection
+      props.state.currentView === CurrentViewEnum.Poster
     "
-    :state="stateRef"
+    :state="props.state"
+  />
+  <ViewPreselection
+    v-else-if="
+      props.state.currentView ===
+      CurrentViewEnum.Preselection
+    "
+    :state="props.state"
   />
   <ViewBracket
     v-else-if="
-      stateRef.currentView === CurrentViewEnum.Bracket
+      props.state.currentView === CurrentViewEnum.Bracket
     "
-    :state="stateRef"
+    :state="props.state"
   />
   <ViewBattle
     v-else-if="
-      stateRef.currentView === CurrentViewEnum.Battle
+      props.state.currentView === CurrentViewEnum.Battle
     "
-    :state="stateRef"
+    :state="props.state"
   />
 </template>

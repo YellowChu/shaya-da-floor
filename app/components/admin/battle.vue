@@ -528,12 +528,12 @@ const onDropDancerY = (event: DragEvent) => {
       </div>
     </UiSection>
 
-    <UiButton
+    <!-- <UiButton
       class="mt-4 px-2 py-1 text-xs transition-colors duration-200"
       @click="$emit('save')"
       variant="success"
     >
       Save
-    </UiButton>
+    </UiButton> -->
   </UiSection>
 </template>

@@ -1,4 +1,5 @@
 export enum CurrentViewEnum {
+  Poster = "poster",
   Preselection = "preselection",
   Bracket = "bracket",
   Battle = "battle",
@@ -44,19 +45,25 @@ export interface Battle {
   useImages: boolean;
 }
 
+export interface Poster {
+  image: string;
+}
+
 export interface IState {
   currentView: CurrentViewEnum;
   preselectionDancers: PreselectionDancer[];
   bracket: Bracket;
   battle: Battle;
   battleDancers: BattleDancer[];
+  posters: string[];
+  currentPoster: string;
 }
 
 const defaultState: IState = {
-  currentView: CurrentViewEnum.Preselection,
+  currentView: CurrentViewEnum.Poster,
   preselectionDancers: [],
   bracket: {
-    hasTwoTop16: false,
+    hasTwoTop16: true,
     top16A: [
       {
         dancerA: { name: "", isLoser: false },
@@ -168,6 +175,17 @@ const defaultState: IState = {
     useImages: false,
   },
   battleDancers: [],
+  posters: [
+    "shaya.PNG",
+    "afrogang.PNG",
+    "mogg.PNG",
+    "akwaaba-1.PNG",
+    "akwaaba-2.PNG",
+    "yoshi.PNG",
+    "denisa-mzungu.PNG",
+    "zizoe.PNG",
+  ],
+  currentPoster: "shaya.PNG",
 };
 
 export const useLocalStorageState  = () => {

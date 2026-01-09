@@ -21,6 +21,15 @@ watch(modelValue, () => {
       <div>
         <input
           type="radio"
+          id="poster"
+          :value="CurrentViewEnum.Poster"
+          v-model="modelValue"
+        />&nbsp;
+        <label for="poster">Poster</label>
+      </div>
+      <div>
+        <input
+          type="radio"
           id="preselection"
           :value="CurrentViewEnum.Preselection"
           v-model="modelValue"
