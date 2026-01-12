@@ -38,7 +38,7 @@ watch(
     v-if="stateRef.currentView !== CurrentViewEnum.Poster"
     class="w-[100vw] h-[100vh] bg-[url('/images/background.png')] bg-cover bg-center"
   >
-    <div class="flex flex-col justify-between h-full">
+    <div class="flex flex-col h-full">
       <div
         class="flex justify-center w-full text-shaya-secondary-dark text-[8rem] font-extrabold"
       >

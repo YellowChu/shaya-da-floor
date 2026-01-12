@@ -61,6 +61,18 @@ export interface IState {
 
 const defaultState: IState = {
   currentView: CurrentViewEnum.Poster,
+  posters: [
+    "shaya.PNG",
+    "sponsors.PNG",
+    "sdk.jpg",
+    "afrogang.PNG",
+    "mogg.PNG",
+    "akwaaba.PNG",
+    "yoshi.PNG",
+    "denisa-mzungu.PNG",
+    "zizoe.PNG",
+  ],
+  currentPoster: "shaya.PNG",
   preselectionDancers: [],
   bracket: {
     hasTwoTop16: true,
@@ -100,35 +112,35 @@ const defaultState: IState = {
     ],
     top16B: [
       {
-        dancerA: { name: "Guest A", isLoser: false },
+        dancerA: { name: "Jazzy", isLoser: false },
         dancerB: { name: "", isLoser: false },
       },
       {
-        dancerA: { name: "Guest B", isLoser: false },
+        dancerA: { name: "Adri", isLoser: false },
         dancerB: { name: "", isLoser: false },
       },
       {
-        dancerA: { name: "Guest C", isLoser: false },
+        dancerA: { name: "Don", isLoser: false },
         dancerB: { name: "", isLoser: false },
       },
       {
-        dancerA: { name: "Guest D", isLoser: false },
+        dancerA: { name: "Timna", isLoser: false },
         dancerB: { name: "", isLoser: false },
       },
       {
-        dancerA: { name: "Guest E", isLoser: false },
+        dancerA: { name: "Leon V", isLoser: false },
         dancerB: { name: "", isLoser: false },
       },
       {
-        dancerA: { name: "Guest F", isLoser: false },
+        dancerA: { name: "Teeny", isLoser: false },
         dancerB: { name: "", isLoser: false },
       },
       {
-        dancerA: { name: "Guest G", isLoser: false },
+        dancerA: { name: "Sebastian", isLoser: false },
         dancerB: { name: "", isLoser: false },
       },
       {
-        dancerA: { name: "Guest H", isLoser: false },
+        dancerA: { name: "Mishena", isLoser: false },
         dancerB: { name: "", isLoser: false },
       },
     ],
@@ -165,6 +177,16 @@ const defaultState: IState = {
       dancerB: { name: "", isLoser: false },
     },
   },
+  battleDancers: [
+    { name: "Jazzy", image: "" },
+    { name: "Adri", image: "" },
+    { name: "Sebastian", image: "" },
+    { name: "Timna", image: "" },
+    { name: "Leon V", image: "" },
+    { name: "Teeny", image: "" },
+    { name: "Don", image: "" },
+    { name: "Mishena", image: "" },
+  ],
   battle: {
     dancerA: { name: "", image: "" },
     dancerB: { name: "", image: "" },
@@ -174,18 +196,6 @@ const defaultState: IState = {
     useXY: false,
     useImages: false,
   },
-  battleDancers: [],
-  posters: [
-    "shaya.PNG",
-    "afrogang.PNG",
-    "mogg.PNG",
-    "akwaaba-1.PNG",
-    "akwaaba-2.PNG",
-    "yoshi.PNG",
-    "denisa-mzungu.PNG",
-    "zizoe.PNG",
-  ],
-  currentPoster: "shaya.PNG",
 };
 
 export const useLocalStorageState  = () => {
